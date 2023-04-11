@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Updating README.md with image.
+
 ## 0.0.3
 
 * Updating README.md 
