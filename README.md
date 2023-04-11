@@ -16,7 +16,7 @@ Add the package to your pubspec.yaml file:
 
 ```yaml 
 dependencies:
-  date_range_picker: ^1.0.0
+  date_range_picker: ^latest
 ```
 Then, run flutter packages get in your terminal.
 
