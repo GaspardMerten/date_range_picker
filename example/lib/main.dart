@@ -1,4 +1,4 @@
-import 'package:date_range_picker/date_range_picker.dart';
+import 'package:flutter_date_range_picker/date_range_picker.dart';
 import 'package:flutter/material.dart';
 
 void main() {

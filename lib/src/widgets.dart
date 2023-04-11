@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:date_range_picker/src/controllers.dart';
-import 'package:date_range_picker/src/models.dart';
-import 'package:date_range_picker/src/utils.dart';
+import 'package:flutter_date_range_picker/src/controllers.dart';
+import 'package:flutter_date_range_picker/src/models.dart';
+import 'package:flutter_date_range_picker/src/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -25,7 +25,7 @@ To use the Date Range Picker, simply import the package and create a DateRangePi
 
 dart
 
-import 'package:date_range_picker/date_range_picker.dart';
+import 'package:flutter_date_range_picker/date_range_picker.dart';
 
 DateRangePickerWidget(
   onPeriodChanged: (period) {
