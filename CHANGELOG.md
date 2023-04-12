@@ -1,3 +1,8 @@
+## 0.0.6
+
+* Adding field and form field to the package
+* Adding showDateRangePicker to the package
+
 ## 0.0.5
 
 * Allowing to specify disabled dates
