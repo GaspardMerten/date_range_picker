@@ -1,13 +1,7 @@
 Date Range Picker 📅
 
-Date Range Picker is a user-friendly and simple package for Flutter that allows users to select a date range. It's designed to evolve over time, and its components are built to be reusable. 
-
-Its main features are:
-- Simple and user-friendly interface
-- Customizable theme
-- Field and form field components
-- Reusable components
-
+Date Range Picker is a user-friendly and simple package for Flutter that allows users to select a date range. It's
+designed to evolve over time, and its components are built to be reusable.
 
 ![Date Range Picker](
 https://raw.githubusercontent.com/GaspardMerten/date_range_picker/main/assets/screen.png)
@@ -25,6 +19,8 @@ https://raw.githubusercontent.com/GaspardMerten/date_range_picker/main/assets/di
 - Simple and user-friendly interface
 - Customizable theme
 - Reusable components
+- Field, form field, and dialog widgets
+- Functions to display a date range picker as a dialog
 - Supports minimum and maximum date limitations
 - Displays two months at once for easy navigation
 
@@ -44,7 +40,7 @@ Then, run flutter packages get in your terminal.
 To use the Date Range Picker, simply import the package and create a DateRangePickerWidget:
 
 ```dart
-import 'package:flutter_date_range_picker/date_range_picker.dart';
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 
 DateRangePickerWidget
 (
@@ -52,6 +48,74 @@ onDateRangeChanged: (dateRange) {
 // Handle the selected dateRange here
 },
 );
+```
+
+You can also specify the initial displayed date, minimum date, maximum date, and initial selected dateRange, as well as
+the minimum and maximum dateRange length:
+
+```dart
+DateRangePickerWidget
+(
+onDateRangeChanged: (dateRange) {
+// Handle the selected dateRange here
+},
+initialDisplayedDate: DateTime.now(),
+initialDateRange: DateRange(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
+minDate: DateTime.now().subtract(Duration(days: 30)),
+maxDate: DateTime.now().add(Duration(days :30)),
+minimumDateRangeLength: 3,
+maximumDateRangeLength
+:
+7
+,
+);
+```
+
+You can also use the <b>DateRangeField</b> or <b>DateRangeFormField</b> to display a dialog asking the user to select a
+date range, and to display the selected range. Here is an example:
+
+```dart
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
+
+DateRangeField
+(
+decoration: InputDecoration(
+label: Text("Date range picker"),
+hintText: 'Please select a date range',
+),
+onDateRangeSelected: (DateRange? value) {
+// Handle the selected date range here
+},
+selectedDateRange
+:
+selectedPeriod
+,
+);
+```
+
+Lastly, you can use the <b>showDateRangePickerDialog</b> function to display a dialog asking the user to select a date
+range:
+
+```dart
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
+
+showDateRangePickerDialog
+(
+context: context, builder: datePickerBuilder);
+
+...
+
+Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange) onDateRangeChanged) => DateRangePickerWidget(
+doubleMonth: true,
+initialDateRange:
+selectedDateRange
+,
+onDateRangeChanged
+:
+onDateRangeChanged
+,
+);
+
 ```
 
 ## Customization 🎨
@@ -64,51 +128,18 @@ DateRangePickerWidget(
     // Handle the selected dateRange here
     },
     theme: CalendarTheme(
-      selectedColor: Colors.blue,
-      dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),
-      inRangeColor: Color(0xFFD9EDFA),
-      inRangeTextStyle: TextStyle(color: Colors.blue),
-      selectedTextStyle: TextStyle(color: Colors.white),
-      todayTextStyle: TextStyle(fontWeight: FontWeight.bold),
-      defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
-      radius: 10,
-      tileSize: 40,
-      disabledTextStyle: TextStyle(color: Colors.grey),
-    ),
-);
-```
-
-You can also specify the initial displayed date, minimum date, maximum date, and initial selected dateRange, as well as
-the minimum and maximum dateRange length:
-
-```dart
-DateRangePickerWidget(
-    onDateRangeChanged: (dateRange) {
-    // Handle the selected dateRange here
-    },
-    initialDisplayedDate: DateTime.now(),
-    initialDateRange: DateRange(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
-    minDate: DateTime.now().subtract(Duration(days: 30)),
-    maxDate: DateTime.now().add(Duration(days :30)),
-    minimumDateRangeLength: 3,
-    maximumDateRangeLength: 7,
-);
-```
-
-You can also use the <b>DateRangeField</b> or <b>DateRangeFormField</b> to display a dialog asking the user to select a date range, and to display the selected range. Here is an example:
-
-```dart
-import 'package:flutter_date_range_picker/date_range_picker.dart';
-
-DateRangeField(
-  decoration: InputDecoration(
-    label: Text("Date range picker"),
-    hintText: 'Please select a date range',
-  ),
-  onDateRangeSelected: (DateRange? value) {
-    // Handle the selected date range here
-  },
-  selectedDateRange: selectedPeriod,
+    selectedColor: Colors.blue,
+    dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),
+    inRangeColor: Color(0xFFD9EDFA),
+    inRangeTextStyle: TextStyle(color: Colors.blue),
+    selectedTextStyle: TextStyle(color: Colors.white),
+    todayTextStyle: TextStyle(fontWeight: FontWeight.bold),
+    defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+    radius: 10,
+    tileSize: 40,
+    disabledTextStyle: TextStyle(color: Colors.grey),
+    )
+,
 );
 ```
 

@@ -276,6 +276,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
             margin: const EdgeInsets.symmetric(horizontal: 16),
           ),
           child,
+          if (widget.quickDateRanges.isNotEmpty)
+            const SizedBox(
+              width: 16,
+            ),
         ],
       );
     }
