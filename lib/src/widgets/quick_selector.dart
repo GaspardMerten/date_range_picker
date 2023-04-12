@@ -29,7 +29,6 @@ class QuickSelectorWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ListView(
-        physics: const BouncingScrollPhysics(),
         children: [
           for (final quickDateRange in quickDateRanges)
             Row(
