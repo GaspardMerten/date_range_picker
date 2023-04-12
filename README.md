@@ -34,34 +34,15 @@ Then, run flutter packages get in your terminal.
 To use the Date Range Picker, simply import the package and create a DateRangePickerWidget:
 
 ```dart
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
-
-DateRangePickerWidget
-(
-onDateRangeChanged: (dateRange) {
-// Handle the selected dateRange here
-},
-);
-```
-
-You can also specify the initial displayed date, minimum date, maximum date, and initial selected dateRange, as well as
-the minimum and maximum dateRange length:
-
-```dart
-DateRangePickerWidget
-(
-onDateRangeChanged: (dateRange) {
-// Handle the selected dateRange here
-},
-initialDisplayedDate: DateTime.now(),
-initialDateRange: DateRange(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
-minDate: DateTime.now().subtract(Duration(days: 30)),
-maxDate: DateTime.now().add(Duration(days :30)),
-minimumDateRangeLength: 3,
-maximumDateRangeLength
-:
-7
-,
+DateRangePickerWidget(
+    doubleMonth: doubleMonth,
+    maximumDateRangeLength: 10,
+    minimumDateRangeLength: 3,
+    initialDateRange: selectedDateRange,
+    disabledDates: [DateTime(2023, 11, 20)],
+    initialDisplayedDate:
+    selectedDateRange?.start ?? DateTime(2023, 11, 20),
+    onDateRangeChanged: onDateRangeChanged,
 );
 ```
 
@@ -69,21 +50,15 @@ You can also use the <b>DateRangeField</b> or <b>DateRangeFormField</b> to displ
 date range, and to display the selected range. Here is an example:
 
 ```dart
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
-
-DateRangeField
-(
-decoration: InputDecoration(
-label: Text("Date range picker"),
-hintText: 'Please select a date range',
-),
-onDateRangeSelected: (DateRange? value) {
-// Handle the selected date range here
-},
-selectedDateRange
-:
-selectedPeriod
-,
+DateRangeField(
+    decoration: InputDecoration(
+        label: Text("Date range picker"),
+        hintText: 'Please select a date range',
+    ),
+    onDateRangeSelected: (DateRange? value) {
+    // Handle the selected date range here
+    },
+  selectedDateRange: selectedRange,
 );
 ```
 
@@ -91,23 +66,16 @@ Lastly, you can use the <b>showDateRangePickerDialog</b> function to display a d
 range:
 
 ```dart
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
-
-showDateRangePickerDialog
-(
-context: context, builder: datePickerBuilder);
-
+showDateRangePickerDialog(
+    context: context, 
+    builder: datePickerBuilder
+);
 ...
 
 Widget datePickerBuilder(BuildContext context, dynamic Function(DateRange) onDateRangeChanged) => DateRangePickerWidget(
-doubleMonth: true,
-initialDateRange:
-selectedDateRange
-,
-onDateRangeChanged
-:
-onDateRangeChanged
-,
+    doubleMonth: true,
+    initialDateRange: selectedDateRange,
+    onDateRangeChanged: onDateRangeChanged,
 );
 
 ```
@@ -145,14 +113,6 @@ This package is released under the MIT License.
 
 We encourage and welcome contributions from the community to help improve and grow this project. If you would like to
 contribute, please feel free to fork the repository, make changes, and submit a pull request.
-
-When contributing, please keep the following guidelines in mind:
-
-- Always follow the best practices and coding standards for Flutter and Dart.
-- Write clear, concise, and well-documented code.
-- Test your changes thoroughly before submitting a pull request.
-- Add or update any necessary documentation related to your changes.
-- Respect the existing codebase and maintain its structure and style.
 
 If you have any questions or need guidance, don't hesitate to reach out to the maintainer of this project. We appreciate
 your interest and support, and we look forward to collaborating with you!

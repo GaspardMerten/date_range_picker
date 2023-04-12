@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/// A widget that displays the current and next month in a row along with navigation arrows.
 class MonthSelectorAndDoubleIndicator extends StatelessWidget {
   const MonthSelectorAndDoubleIndicator({
     Key? key,
     required this.currentMonth,
     required this.onNext,
     required this.onPrevious,
-    required this.nextMonth,
+    this.nextMonth,
     this.style,
     this.doubleMonth = true,
-  }) : super(key: key);
+  })  : assert(doubleMonth ? nextMonth != null : true),
+        super(key: key);
 
+  /// The current month displayed.
   final DateTime currentMonth;
-  final DateTime nextMonth;
+
+  /// The next month displayed.
+  final DateTime? nextMonth;
+
+  /// Whether to display two months or not.
   final bool doubleMonth;
+
+  /// A callback for when the next button is pressed.
   final VoidCallback onNext;
+
+  /// A callback for when the previous button is pressed.
   final VoidCallback onPrevious;
+
+  /// The text style of the displayed month.
   final TextStyle? style;
 
   @override
@@ -39,7 +52,7 @@ class MonthSelectorAndDoubleIndicator extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: Text(
-              DateFormat.yMMM().format(nextMonth),
+              DateFormat.yMMM().format(nextMonth!),
               textAlign: TextAlign.center,
               style: style,
             ),

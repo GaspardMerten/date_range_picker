@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Adding missing documentation
+
 ## 0.0.7
 
 * Removing useless images from the README.md file
