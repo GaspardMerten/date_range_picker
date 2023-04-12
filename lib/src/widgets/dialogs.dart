@@ -61,12 +61,11 @@ Future<DateRange?> showDateRangePickerDialogOnWidget({
 
   // Show the dateRange picker dialog and get the selected date range
   final dateRange = showDateRangePickerDialog(
-    context: context ?? widgetContext,
-    footerBuilder: dialogFooterBuilder,
-    barrierColor: barrierColor,
-    builder: pickerBuilder,
-    offset: offset + delta
-  );
+      context: context ?? widgetContext,
+      footerBuilder: dialogFooterBuilder,
+      barrierColor: barrierColor,
+      builder: pickerBuilder,
+      offset: offset + delta);
 
   return dateRange;
 }

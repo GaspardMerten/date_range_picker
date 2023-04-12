@@ -4,12 +4,6 @@ Date Range Picker is a user-friendly and simple package for Flutter that allows 
 designed to evolve over time, and its components are built to be reusable.
 
 ![Date Range Picker](
-https://raw.githubusercontent.com/GaspardMerten/date_range_picker/main/assets/screen.png)
-
-![Date Range Picker](
-https://raw.githubusercontent.com/GaspardMerten/date_range_picker/main/assets/field.png)
-
-![Date Range Picker](
 https://raw.githubusercontent.com/GaspardMerten/date_range_picker/main/assets/dialog.png)
 
 (Isn't it beautiful?)

@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Removing useless images from the README.md file
+
 ## 0.0.6
 
 * Adding field and form field to the package

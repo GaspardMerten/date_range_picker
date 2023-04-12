@@ -24,10 +24,11 @@ class DateRangeFormField extends FormField<DateRange> {
     FormFieldSetter<DateRange>? onSaved,
     FormFieldValidator<DateRange>? validator,
     Future<DateRange?> Function({
-        required BuildContext widgetContext,
-        required DateRangerPickerWidgetBuilder pickerBuilder,
-      }) showDateRangePicker = showDateRangePickerDialogOnWidget,
-  Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
+      required BuildContext widgetContext,
+      required DateRangerPickerWidgetBuilder pickerBuilder,
+    })
+        showDateRangePicker = showDateRangePickerDialogOnWidget,
+    Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
     Widget Function(BuildContext, DateRange?)? builder,
   }) : super(
           key: key,

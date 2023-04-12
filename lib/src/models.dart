@@ -109,25 +109,24 @@ class CalendarTheme {
   /// The color of the selected quick selection dateRange (left border).
   final Color? selectedQuickDateRangeColor;
 
-  const CalendarTheme({
-    required this.selectedColor,
-    required this.inRangeColor,
-    required this.inRangeTextStyle,
-    required this.selectedTextStyle,
-    required this.todayTextStyle,
-    required this.defaultTextStyle,
-    required this.disabledTextStyle,
-    this.quickDateRangeTextStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 14,
-    ),
-    this.monthTextStyle,
-    this.dayNameTextStyle =
-        const TextStyle(color: Colors.black45, fontSize: 10),
-    required this.radius,
-    required this.tileSize,
-    this.selectedQuickDateRangeColor
-  });
+  const CalendarTheme(
+      {required this.selectedColor,
+      required this.inRangeColor,
+      required this.inRangeTextStyle,
+      required this.selectedTextStyle,
+      required this.todayTextStyle,
+      required this.defaultTextStyle,
+      required this.disabledTextStyle,
+      this.quickDateRangeTextStyle = const TextStyle(
+        color: Colors.black,
+        fontSize: 14,
+      ),
+      this.monthTextStyle,
+      this.dayNameTextStyle =
+          const TextStyle(color: Colors.black45, fontSize: 10),
+      required this.radius,
+      required this.tileSize,
+      this.selectedQuickDateRangeColor});
 }
 
 /// A model that represents a quick selection dateRange in the quick selection widget.

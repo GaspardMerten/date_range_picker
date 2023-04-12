@@ -42,9 +42,7 @@ class QuickSelectorWidget extends StatelessWidget {
                         right: Radius.circular(2)),
                     color: quickDateRange.dateRange == selectedDateRange
                         ? theme.selectedQuickDateRangeColor ??
-                        Theme
-                            .of(context)
-                            .primaryColor
+                            Theme.of(context).primaryColor
                         : Colors.transparent,
                   ),
                 ),
