@@ -1,7 +1,7 @@
 ## 0.0.5
 
 * Allowing to specify disabled dates
-* Allowing to specify a minimum and a maximum period
+* Allowing to specify a minimum and a maximum dateRange
 * Fixing an issue with today's date which was incorrectly detected.
 
 ## 0.0.4

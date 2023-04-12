@@ -28,8 +28,8 @@ dart
 import 'package:flutter_date_range_picker/date_range_picker.dart';
 
 DateRangePickerWidget(
-  onPeriodChanged: (period) {
-    // Handle the selected period here
+  onDateRangeChanged: (dateRange) {
+    // Handle the selected dateRange here
   },
 );
 
@@ -40,8 +40,8 @@ You can customize the appearance of the Date Range Picker by providing a custom 
 dart
 
 DateRangePickerWidget(
-  onPeriodChanged: (period) {
-    // Handle the selected period here
+  onDateRangeChanged: (dateRange) {
+    // Handle the selected dateRange here
   },
   theme: CalendarTheme(
     selectedColor: Colors.blue,
@@ -56,16 +56,16 @@ DateRangePickerWidget(
   ),
 );
 
-You can also specify the initial displayed date, minimum date, maximum date, and initial selected period:
+You can also specify the initial displayed date, minimum date, maximum date, and initial selected dateRange:
 
 dart
 
 DateRangePickerWidget(
-  onPeriodChanged: (period) {
-    // Handle the selected period here
+  onDateRangeChanged: (dateRange) {
+    // Handle the selected dateRange here
   },
   initialDisplayedDate: DateTime.now(),
-  initialPeriod: Period(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
+  initialDateRange: DateRange(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
   minDate: DateTime.now().subtract(Duration(days: 30)),
   maxDate: DateTime.now().add(Duration(days: 30)),
 );

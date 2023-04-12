@@ -6,27 +6,27 @@ import 'package:flutter_date_range_picker/src/models.dart';
 /// A controller that handles the logic of the date range picker.
 class RangePickerController {
   RangePickerController(
-      {Period? period,
-      required this.onPeriodChanged,
+      {DateRange? dateRange,
+      required this.onDateRangeChanged,
       this.minDate,
       this.maxDate,
       this.startDate,
       this.endDate,
-      this.minimumPeriodLength,
-      this.maximumPeriodLength,
+      this.minimumDateRangeLength,
+      this.maximumDateRangeLength,
       this.disabledDates = const []}) {
-    if (period != null) {
-      startDate = period.start;
-      endDate = period.end;
+    if (dateRange != null) {
+      startDate = dateRange.start;
+      endDate = dateRange.end;
     }
   }
 
-  int? maximumPeriodLength;
-  int? minimumPeriodLength;
+  int? maximumDateRangeLength;
+  int? minimumDateRangeLength;
 
   List<DateTime> disabledDates;
 
-  final ValueChanged<Period> onPeriodChanged;
+  final ValueChanged<DateRange> onDateRangeChanged;
 
   /// The minimum date that can be selected. (inclusive)
   DateTime? minDate;
@@ -40,6 +40,14 @@ class RangePickerController {
   /// The end date of the selected range.
   DateTime? endDate;
 
+  DateRange? get dateRange {
+    if (startDate == null || endDate == null) {
+      return null;
+    }
+
+    return DateRange(startDate!, endDate!);
+  }
+
   /// Called when the user selects a date in the calendar.
   /// If the [startDate] is null, it will be set to the [date] parameter.
   /// If the [startDate] is not null and the [endDate] is null, it will be set to the [date]
@@ -50,13 +58,14 @@ class RangePickerController {
   void onDateChanged(DateTime date) {
     if (startDate == null) {
       startDate = date;
+      onDateRangeChanged(DateRange(startDate!, startDate!));
     } else if (endDate == null) {
       if (date.isBefore(startDate!)) {
         startDate = date;
         endDate = null;
       } else {
         endDate = date;
-        onPeriodChanged(Period(startDate!, endDate!));
+        onDateRangeChanged(DateRange(startDate!, endDate!));
       }
     } else {
       startDate = date;
@@ -69,8 +78,7 @@ class RangePickerController {
     if (startDate == null || endDate == null) {
       return false;
     }
-    return date.isAtSameMomentAs(startDate!) ||
-        date.isAtSameMomentAs(endDate!) ||
+    return dateIsStartOrEnd(date) ||
         (date.isAfter(startDate!) && date.isBefore(endDate!));
   }
 
@@ -88,14 +96,14 @@ class RangePickerController {
 
     if (startDate != null && endDate == null) {
       var dateDifference = date.difference(startDate!).inDays;
-      if (maximumPeriodLength != null &&
-          dateDifference + 1 > maximumPeriodLength!) {
+      if (maximumDateRangeLength != null &&
+          dateDifference + 1 > maximumDateRangeLength!) {
         return false;
       }
 
-      if (minimumPeriodLength != null &&
+      if (minimumDateRangeLength != null &&
           dateDifference > 0 &&
-          dateDifference + 1 < minimumPeriodLength!) {
+          dateDifference + 1 < minimumDateRangeLength!) {
         return false;
       }
     }
@@ -115,7 +123,7 @@ class RangePickerController {
       return false;
     }
 
-    return date.isAtSameMomentAs(startDate!);
+    return areSameDay(date, startDate!);
   }
 
   /// Returns whether the [date] is the end of the selected range or not.
@@ -124,7 +132,7 @@ class RangePickerController {
       return false;
     }
 
-    return date.isAtSameMomentAs(endDate!);
+    return areSameDay(date, endDate!);
   }
 
   /// Returns whether the [date] is the start or the end of the selected range or not.
@@ -230,5 +238,12 @@ class CalendarWidgetController {
   /// Returns the number of days to skip at the beginning of the next month.
   int retrieveDeltaForNextMonth() {
     return controller.retrieveDeltaForMonth(nextMonth);
+  }
+
+  void setDateRange(DateRange dateRange) {
+    controller.startDate = dateRange.start;
+    controller.endDate = dateRange.end;
+    controller.onDateRangeChanged(dateRange);
+    _streamController.add(null);
   }
 }

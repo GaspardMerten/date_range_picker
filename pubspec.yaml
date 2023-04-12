@@ -1,5 +1,5 @@
 name: flutter_date_range_picker
-description: A date range picker for Flutter
+description: Flutter package for selecting date ranges with input, dialog, and calendar options.
 version: 0.0.5
 homepage: https://github.com/GaspardMerten/date_range_picker
 
@@ -8,7 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  intl: ^0.17.0
+  intl: ^0.18.0
   flutter:
     sdk: flutter
 

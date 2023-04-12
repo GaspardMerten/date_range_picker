@@ -1,7 +1,5 @@
-import 'package:flutter_date_range_picker/src/models.dart';
-import 'package:flutter_date_range_picker/src/utils.dart';
-import 'package:flutter_date_range_picker/src/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -21,19 +19,19 @@ void main() {
   });
 
   group('DateRangePickerWidget', () {
-    testWidgets('renders correctly and initializes with initial period',
+    testWidgets('renders correctly and initializes with initial dateRange',
         (WidgetTester tester) async {
-      final initialPeriod = Period(DateTime(2023, 1, 1), DateTime(2023, 1, 5));
+      final initialDateRange = DateRange(DateTime(2023, 1, 1), DateTime(2023, 1, 5));
       final minDate = DateTime(2022, 1, 1);
       final maxDate = DateTime(2023, 12, 31);
 
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: DateRangePickerWidget(
-            initialPeriod: initialPeriod,
+            initialDateRange: initialDateRange,
             minDate: minDate,
             maxDate: maxDate,
-            onPeriodChanged: (Period period) {},
+            onDateRangeChanged: (DateRange dateRange) {},
           ),
         ),
       ));

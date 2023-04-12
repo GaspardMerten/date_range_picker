@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class Period {
+class DateRange {
   final DateTime start;
   final DateTime end;
 
-  Period(this.start, this.end);
+  DateRange(this.start, this.end);
 
   @override
   String toString() {
-    return "Period: $start to $end";
+    return "${DateFormat('dd/MM/yyyy').format(start)} - ${DateFormat('dd/MM/yyyy').format(end)}";
   }
+
+  @override
+  bool operator ==(Object other) {
+    // Check whether the other object is a QuickDateRange
+    // and whether both start and end dates are on the same day (comparison
+    // is done attribute by attribute).
+    if (other is DateRange) {
+      return start.year == other.start.year &&
+          start.month == other.start.month &&
+          start.day == other.start.day &&
+          end.year == other.end.year &&
+          end.month == other.end.month &&
+          end.day == other.end.day;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  int get hashCode => start.hashCode ^ end.hashCode;
 }
 
 /// A model that represents a day in the calendar. It possesses all the information
@@ -82,6 +103,12 @@ class CalendarTheme {
   /// The text style for the day names.
   final TextStyle dayNameTextStyle;
 
+  /// The text style for the quick selection dateRange labels.
+  final TextStyle quickDateRangeTextStyle;
+
+  /// The color of the selected quick selection dateRange (left border).
+  final Color? selectedQuickDateRangeColor;
+
   const CalendarTheme({
     required this.selectedColor,
     required this.inRangeColor,
@@ -90,10 +117,23 @@ class CalendarTheme {
     required this.todayTextStyle,
     required this.defaultTextStyle,
     required this.disabledTextStyle,
+    this.quickDateRangeTextStyle = const TextStyle(
+      color: Colors.black,
+      fontSize: 14,
+    ),
     this.monthTextStyle,
     this.dayNameTextStyle =
         const TextStyle(color: Colors.black45, fontSize: 10),
     required this.radius,
     required this.tileSize,
+    this.selectedQuickDateRangeColor
   });
+}
+
+/// A model that represents a quick selection dateRange in the quick selection widget.
+class QuickDateRange {
+  final DateRange dateRange;
+  final String label;
+
+  QuickDateRange({required this.dateRange, required this.label});
 }

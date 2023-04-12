@@ -1,4 +1,11 @@
 export 'src/controllers.dart';
 export 'src/models.dart';
 export 'src/utils.dart';
-export 'src/widgets.dart';
+export 'src/widgets/bricks/month_selector.dart';
+export 'src/widgets/bricks/month_wrap.dart';
+export 'src/widgets/bricks/tile.dart';
+export 'src/widgets/date_range_picker.dart';
+export 'src/widgets/inputs/field.dart';
+export 'src/widgets/inputs/form_field.dart';
+export 'src/widgets/dialogs.dart';
+export 'src/widgets/quick_selector.dart';

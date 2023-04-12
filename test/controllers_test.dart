@@ -5,7 +5,7 @@ void main() {
   group('RangePickerController tests', () {
     test('onDateChanged sets startDate', () {
       final controller = RangePickerController(
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       controller.onDateChanged(DateTime(2022, 4, 1));
       expect(controller.startDate, DateTime(2022, 4, 1));
@@ -14,7 +14,7 @@ void main() {
     test('onDateChanged sets endDate', () {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 1),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       controller.onDateChanged(DateTime(2022, 4, 5));
       expect(controller.endDate, DateTime(2022, 4, 5));
@@ -24,7 +24,7 @@ void main() {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       controller.onDateChanged(DateTime(2022, 4, 5));
       expect(controller.startDate, DateTime(2022, 4, 5));
@@ -35,7 +35,7 @@ void main() {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       controller.onDateChanged(DateTime(2022, 4, 5));
       expect(controller.startDate, DateTime(2022, 4, 5));
@@ -46,14 +46,14 @@ void main() {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateInSelectedRange(DateTime(2022, 4, 12)), true);
     });
 
     test('dateInSelectedRange returns false when startDate is null', () {
       final controller = RangePickerController(
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateInSelectedRange(DateTime(2022, 4, 12)), false);
     });
@@ -61,7 +61,7 @@ void main() {
     test('dateInSelectedRange returns false when endDate is null', () {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateInSelectedRange(DateTime(2022, 4, 12)), false);
     });
@@ -71,7 +71,7 @@ void main() {
       final controller = RangePickerController(
         minDate: DateTime(2022, 4, 1),
         maxDate: DateTime(2022, 4, 30),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsSelectable(DateTime(2022, 4, 15)), true);
     });
@@ -79,7 +79,7 @@ void main() {
     test('dateIsSelectable returns false when date is before minDate', () {
       final controller = RangePickerController(
         minDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsSelectable(DateTime(2022, 4, 1)), false);
     });
@@ -87,7 +87,7 @@ void main() {
     test('dateIsSelectable returns false when date is after maxDate', () {
       final controller = RangePickerController(
         maxDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsSelectable(DateTime(2022, 4, 30)), false);
     });
@@ -95,14 +95,14 @@ void main() {
     test('dateIsStart returns true when date is startDate', () {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsStart(DateTime(2022, 4, 10)), true);
     });
 
     test('dateIsStart returns false when startDate is null', () {
       final controller = RangePickerController(
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsStart(DateTime(2022, 4, 10)), false);
     });
@@ -110,14 +110,14 @@ void main() {
     test('dateIsEnd returns true when date is endDate', () {
       final controller = RangePickerController(
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsEnd(DateTime(2022, 4, 15)), true);
     });
 
     test('dateIsEnd returns false when endDate is null', () {
       final controller = RangePickerController(
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsEnd(DateTime(2022, 4, 15)), false);
     });
@@ -125,7 +125,7 @@ void main() {
     test('dateIsStartOrEnd returns true when date is startDate', () {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsStartOrEnd(DateTime(2022, 4, 10)), true);
     });
@@ -133,7 +133,7 @@ void main() {
     test('dateIsStartOrEnd returns true when date is endDate', () {
       final controller = RangePickerController(
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       expect(controller.dateIsStartOrEnd(DateTime(2022, 4, 15)), true);
     });
@@ -142,7 +142,7 @@ void main() {
       final controller = RangePickerController(
         startDate: DateTime(2022, 4, 10),
         endDate: DateTime(2022, 4, 15),
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       final dates = controller.retrieveDatesForMonth(DateTime(2022, 4, 1));
       expect(dates.length, 30);
@@ -155,18 +155,18 @@ void main() {
     test(
         'retrieveDeltaForMonth returns the correct number of days to skip', () {
       final controller = RangePickerController(
-        onPeriodChanged: (_) {},
+        onDateRangeChanged: (_) {},
       );
       final delta = controller.retrieveDeltaForMonth(DateTime(2022, 4, 1));
       expect(delta, 4);
     });
   });
 
-  test('selectableDay for days + 10 in the future is false when start date is further than max period (10 days) in this case. But true when before', () {
+  test('selectableDay for days + 10 in the future is false when start date is further than max dateRange (10 days) in this case. But true when before', () {
     final controller = RangePickerController(
       startDate: DateTime(2022, 4, 10),
-      maximumPeriodLength: 10,
-      onPeriodChanged: (_) {},
+      maximumDateRangeLength: 10,
+      onDateRangeChanged: (_) {},
     );
 
     for (int i = 10; i <= 10; i++) {
@@ -178,11 +178,11 @@ void main() {
     }
   });
 
-  test('dateIsSelectable returns false when start date is selected with min period of 10 days if date is inside that period, true otherwise.', () {
+  test('dateIsSelectable returns false when start date is selected with min dateRange of 10 days if date is inside that dateRange, true otherwise.', () {
     final controller = RangePickerController(
       startDate: DateTime(2022, 4, 10),
-      minimumPeriodLength: 10,
-      onPeriodChanged: (_) {},
+      minimumDateRangeLength: 10,
+      onDateRangeChanged: (_) {},
     );
 
     for (int i = 1; i < 9; i++) {
@@ -197,7 +197,7 @@ void main() {
   test('dateIsSelectable returns false when the date is specifically disabled', () {
     final controller = RangePickerController(
       disabledDates: [DateTime(2022, 4, 10)],
-      onPeriodChanged: (_) {},
+      onDateRangeChanged: (_) {},
     );
 
     expect(controller.dateIsSelectable(DateTime(2022, 4, 10)), false);
@@ -205,7 +205,7 @@ void main() {
 
   test('DayModel is marked as isToday when date is today', () {
     final controller = RangePickerController(
-      onPeriodChanged: (_) {},
+      onDateRangeChanged: (_) {},
     );
 
     expect(controller.retrieveDatesForMonth(DateTime.now())[DateTime.now().day - 1].isToday, true);
