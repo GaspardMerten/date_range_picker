@@ -41,7 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             DateRangePickerWidget(
-              initialDisplayedDate: DateTime(2023,11,20),
+              maximumPeriodLength: 10,
+              minimumPeriodLength: 3,
+              disabledDates: [DateTime(2023, 11, 20)],
+              initialDisplayedDate: DateTime(2023, 11, 20),
               onPeriodChanged: (Period value) {
                 debugPrint(value.toString());
               },

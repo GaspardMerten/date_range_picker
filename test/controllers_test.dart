@@ -161,6 +161,55 @@ void main() {
       expect(delta, 4);
     });
   });
+
+  test('selectableDay for days + 10 in the future is false when start date is further than max period (10 days) in this case. But true when before', () {
+    final controller = RangePickerController(
+      startDate: DateTime(2022, 4, 10),
+      maximumPeriodLength: 10,
+      onPeriodChanged: (_) {},
+    );
+
+    for (int i = 10; i <= 10; i++) {
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 10 + i)), false);
+    }
+
+    for (int i = 0; i < 10; i++) {
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 10 + i)), true);
+    }
+  });
+
+  test('dateIsSelectable returns false when start date is selected with min period of 10 days if date is inside that period, true otherwise.', () {
+    final controller = RangePickerController(
+      startDate: DateTime(2022, 4, 10),
+      minimumPeriodLength: 10,
+      onPeriodChanged: (_) {},
+    );
+
+    for (int i = 1; i < 9; i++) {
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 10 + i)), false);
+    }
+
+    for (int i = 10; i <= 10; i++) {
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 10 + i)), true);
+    }
+  });
+
+  test('dateIsSelectable returns false when the date is specifically disabled', () {
+    final controller = RangePickerController(
+      disabledDates: [DateTime(2022, 4, 10)],
+      onPeriodChanged: (_) {},
+    );
+
+    expect(controller.dateIsSelectable(DateTime(2022, 4, 10)), false);
+  });
+
+  test('DayModel is marked as isToday when date is today', () {
+    final controller = RangePickerController(
+      onPeriodChanged: (_) {},
+    );
+
+    expect(controller.retrieveDatesForMonth(DateTime.now())[DateTime.now().day - 1].isToday, true);
+  });
 }
 
 

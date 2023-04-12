@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/src/controllers.dart';
 import 'package:flutter_date_range_picker/src/models.dart';
 import 'package:flutter_date_range_picker/src/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 const CalendarTheme kTheme = CalendarTheme(
@@ -12,10 +12,11 @@ const CalendarTheme kTheme = CalendarTheme(
   inRangeColor: Color(0xFFD9EDFA),
   inRangeTextStyle: TextStyle(color: Colors.blue),
   selectedTextStyle: TextStyle(color: Colors.white),
-  todayTextStyle: TextStyle(color: Colors.red),
+  todayTextStyle: TextStyle(fontWeight: FontWeight.bold),
   defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
   radius: 10,
   tileSize: 40,
+  disabledTextStyle: TextStyle(color: Colors.grey),
 );
 
 /// The default day tile builder.
@@ -35,6 +36,10 @@ Widget kDayTileBuilder(
     combinedTextStyle = combinedTextStyle.merge(theme.selectedTextStyle);
   }
 
+  if (!dayModel.isSelectable) {
+    combinedTextStyle = combinedTextStyle.merge(theme.disabledTextStyle);
+  }
+
   return DayTileWidget(
     size: theme.tileSize,
     textStyle: combinedTextStyle,
@@ -42,7 +47,7 @@ Widget kDayTileBuilder(
     color: dayModel.isSelected ? theme.selectedColor : null,
     text: dayModel.date.day.toString(),
     value: dayModel.date,
-    onTap: onTap,
+    onTap: dayModel.isSelectable ? onTap : null,
     radius: BorderRadius.horizontal(
       left: Radius.circular(
           dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
@@ -83,19 +88,27 @@ class DayNamesRow extends StatelessWidget {
 }
 
 class DateRangePickerWidget extends StatefulWidget {
-  const DateRangePickerWidget({
-    Key? key,
-    required this.onPeriodChanged,
-    this.initialDisplayedDate,
-     this.initialPeriod,  this.minDate,  this.maxDate,
-    this.theme = kTheme,
-  }) : super(key: key);
+  const DateRangePickerWidget(
+      {Key? key,
+      required this.onPeriodChanged,
+      this.initialDisplayedDate,
+      this.minimumPeriodLength,
+      this.initialPeriod,
+      this.minDate,
+      this.maxDate,
+      this.theme = kTheme,
+      this.maximumPeriodLength,
+      this.disabledDates = const []})
+      : super(key: key);
 
   final ValueChanged<Period> onPeriodChanged;
   final Period? initialPeriod;
+  final int? maximumPeriodLength;
+  final int? minimumPeriodLength;
   final DateTime? minDate;
   final DateTime? maxDate;
   final DateTime? initialDisplayedDate;
+  final List<DateTime> disabledDates;
   final CalendarTheme theme;
 
   @override
@@ -108,11 +121,16 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     minDate: widget.minDate,
     maxDate: widget.maxDate,
     onPeriodChanged: widget.onPeriodChanged,
+    disabledDates: widget.disabledDates,
+    minimumPeriodLength: widget.minimumPeriodLength,
+    maximumPeriodLength: widget.maximumPeriodLength,
   );
 
   late final calendarController = CalendarWidgetController(
     controller: controller,
-    currentMonth: widget.initialDisplayedDate ?? widget.initialPeriod?.start ?? DateTime.now(),
+    currentMonth: widget.initialDisplayedDate ??
+        widget.initialPeriod?.start ??
+        DateTime.now(),
   );
 
   late final StreamSubscription subscription;
@@ -315,7 +333,7 @@ class DayTileWidget extends StatelessWidget {
   final String text;
   final DateTime value;
   final double size;
-  final ValueChanged<DateTime> onTap;
+  final ValueChanged<DateTime>? onTap;
   final BorderRadius backgroundRadius;
   final BorderRadius radius;
 
@@ -326,7 +344,7 @@ class DayTileWidget extends StatelessWidget {
       color: backgroundColor ?? Colors.transparent,
       child: InkWell(
         borderRadius: radius,
-        onTap: () => onTap(value),
+        onTap: () => onTap?.call(value),
         child: Container(
           width: size,
           height: size,

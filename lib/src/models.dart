@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Period {
   final DateTime start;
   final DateTime end;
@@ -12,7 +11,6 @@ class Period {
     return "Period: $start to $end";
   }
 }
-
 
 /// A model that represents a day in the calendar. It possesses all the information
 /// needed to display the corresponding day tile in the calendar.
@@ -49,7 +47,6 @@ class DayModel {
   });
 }
 
-
 /// A customizable theme for the calendar widget.
 class CalendarTheme {
   /// The color of the selected day.
@@ -63,6 +60,9 @@ class CalendarTheme {
 
   /// The text style of the selected day.
   final TextStyle selectedTextStyle;
+
+  /// The text style of the selected day.
+  final TextStyle disabledTextStyle;
 
   /// The text style of the today day.
   final TextStyle todayTextStyle;
@@ -80,7 +80,7 @@ class CalendarTheme {
   final TextStyle? monthTextStyle;
 
   /// The text style for the day names.
-  final TextStyle  dayNameTextStyle;
+  final TextStyle dayNameTextStyle;
 
   const CalendarTheme({
     required this.selectedColor,
@@ -89,10 +89,11 @@ class CalendarTheme {
     required this.selectedTextStyle,
     required this.todayTextStyle,
     required this.defaultTextStyle,
+    required this.disabledTextStyle,
     this.monthTextStyle,
-    this.dayNameTextStyle = const TextStyle(color: Colors.black45, fontSize: 10),
+    this.dayNameTextStyle =
+        const TextStyle(color: Colors.black45, fontSize: 10),
     required this.radius,
     required this.tileSize,
   });
-
 }

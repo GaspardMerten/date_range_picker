@@ -1,23 +1,30 @@
 import 'dart:async';
 
-import 'package:flutter_date_range_picker/src/models.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_date_range_picker/src/models.dart';
 
 /// A controller that handles the logic of the date range picker.
 class RangePickerController {
-  RangePickerController({
-    Period? period,
-    required this.onPeriodChanged,
-    this.minDate,
-    this.maxDate,
-    this.startDate,
-    this.endDate,
-  }) {
+  RangePickerController(
+      {Period? period,
+      required this.onPeriodChanged,
+      this.minDate,
+      this.maxDate,
+      this.startDate,
+      this.endDate,
+      this.minimumPeriodLength,
+      this.maximumPeriodLength,
+      this.disabledDates = const []}) {
     if (period != null) {
       startDate = period.start;
       endDate = period.end;
     }
   }
+
+  int? maximumPeriodLength;
+  int? minimumPeriodLength;
+
+  List<DateTime> disabledDates;
 
   final ValueChanged<Period> onPeriodChanged;
 
@@ -49,10 +56,7 @@ class RangePickerController {
         endDate = null;
       } else {
         endDate = date;
-        onPeriodChanged(Period(
-          startDate!,
-          endDate!
-        ));
+        onPeriodChanged(Period(startDate!, endDate!));
       }
     } else {
       startDate = date;
@@ -70,8 +74,32 @@ class RangePickerController {
         (date.isAfter(startDate!) && date.isBefore(endDate!));
   }
 
+  bool areSameDay(DateTime one, DateTime two) {
+    return one.year == two.year && one.month == two.month && one.day == two.day;
+  }
+
   /// Returns whether the [date] is selectable or not. (i.e. if it is between the [minDate] and the [maxDate])
   bool dateIsSelectable(DateTime date) {
+    for (final DateTime disabledDay in disabledDates) {
+      if (areSameDay(disabledDay, date)) {
+        return false;
+      }
+    }
+
+    if (startDate != null && endDate == null) {
+      var dateDifference = date.difference(startDate!).inDays;
+      if (maximumPeriodLength != null &&
+          dateDifference + 1 > maximumPeriodLength!) {
+        return false;
+      }
+
+      if (minimumPeriodLength != null &&
+          dateDifference > 0 &&
+          dateDifference + 1 < minimumPeriodLength!) {
+        return false;
+      }
+    }
+
     if (minDate != null && date.isBefore(minDate!)) {
       return false;
     }
@@ -124,7 +152,7 @@ class RangePickerController {
         isStart: dateIsStart(date),
         isEnd: dateIsEnd(date),
         isSelectable: dateIsSelectable(date),
-        isToday: date.isAtSameMomentAs(DateTime.now()),
+        isToday: areSameDay(date, DateTime.now()),
         isInRange: dateInSelectedRange(date),
       ));
     }

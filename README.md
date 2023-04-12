@@ -22,7 +22,7 @@ Add the package to your pubspec.yaml file:
 
 ```yaml 
 dependencies:
-  date_range_picker: ^latest
+  date_range_picker: ^latest_version
 ```
 
 Then, run flutter packages get in your terminal.
@@ -47,42 +47,39 @@ onPeriodChanged: (period) {
 You can customize the appearance of the Date Range Picker by providing a custom CalendarTheme:
 
 ```dart
-DateRangePickerWidget
-(
-onPeriodChanged: (period) {
-// Handle the selected period here
-},
-theme: CalendarTheme(
-selectedColor: Colors.blue,
-dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),
-inRangeColor: Color(0xFFD9EDFA),
-inRangeTextStyle: TextStyle(color: Colors.blue),
-selectedTextStyle: TextStyle(color: Colors.white),
-todayTextStyle: TextStyle(color: Colors.red),
-defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
-radius: 10,
-tileSize: 40,
-),
+DateRangePickerWidget(
+    onPeriodChanged: (period) {
+    // Handle the selected period here
+    },
+    theme: CalendarTheme(
+      selectedColor: Colors.blue,
+      dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),
+      inRangeColor: Color(0xFFD9EDFA),
+      inRangeTextStyle: TextStyle(color: Colors.blue),
+      selectedTextStyle: TextStyle(color: Colors.white),
+      todayTextStyle: TextStyle(fontWeight: FontWeight.bold),
+      defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      radius: 10,
+      tileSize: 40,
+      disabledTextStyle: TextStyle(color: Colors.grey),
+    ),
 );
 ```
 
-You can also specify the initial displayed date, minimum date, maximum date, and initial selected period:
+You can also specify the initial displayed date, minimum date, maximum date, and initial selected period, as well as
+the minimum and maximum period length:
 
 ```dart
-DateRangePickerWidget
-(
-onPeriodChanged: (period) {
-// Handle the selected period here
-},
-initialDisplayedDate: DateTime.now(),
-initialPeriod: Period(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
-minDate: DateTime.now().subtract(Duration(days: 30)),
-maxDate: DateTime.now().add(Duration(days
-:
-30
-)
-)
-,
+DateRangePickerWidget(
+    onPeriodChanged: (period) {
+    // Handle the selected period here
+    },
+    initialDisplayedDate: DateTime.now(),
+    initialPeriod: Period(start: DateTime.now(), end: DateTime.now().add(Duration(days: 7))),
+    minDate: DateTime.now().subtract(Duration(days: 30)),
+    maxDate: DateTime.now().add(Duration(days :30)),
+    minimumPeriodLength: 3,
+    maximumPeriodLength: 7,
 );
 ```
 
