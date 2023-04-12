@@ -1,14 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_date_range_picker/src/controllers.dart';
-import 'package:flutter_date_range_picker/src/models.dart';
-import 'package:flutter_date_range_picker/src/utils.dart';
-import 'package:flutter_date_range_picker/src/widgets/bricks/month_selector.dart';
-import 'package:flutter_date_range_picker/src/widgets/bricks/month_wrap.dart';
-import 'package:flutter_date_range_picker/src/widgets/bricks/tile.dart';
-import 'package:flutter_date_range_picker/src/widgets/quick_selector.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 
 /// The default [CalendarTheme] used by the date range picker.
