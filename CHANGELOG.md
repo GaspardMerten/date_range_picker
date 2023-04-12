@@ -1,3 +1,7 @@
+## 0.0.9
+
+* Removing BouncyScrollPhysics for the quick period selection
+
 ## 0.0.8
 
 * Adding missing documentation
