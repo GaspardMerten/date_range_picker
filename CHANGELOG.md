@@ -1,3 +1,8 @@
+## 0.0.11
+
+* Focus on the first date when a quick period is selected
+
+
 ## 0.0.10
 
 * Adding the ability to specify a null quick period selection

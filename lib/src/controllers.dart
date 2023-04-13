@@ -173,6 +173,11 @@ class RangePickerController {
     DateTime firstDayOfMonth = DateTime(month.year, month.month, 1);
     return firstDayOfMonth.weekday - 1;
   }
+
+  void onDateRangeChangedExternally(DateRange? newRange) {
+    startDate = newRange?.start;
+    endDate = newRange?.end;
+  }
 }
 
 /// A controller that handles the logic of the calendar widget.
@@ -241,17 +246,14 @@ class CalendarWidgetController {
   }
 
   void setDateRange(DateRange? dateRange) {
+    _streamController.add(null);
+
     if (dateRange == null) {
-      controller.startDate = null;
-      controller.endDate = null;
-      controller.onDateRangeChanged(null);
-      _streamController.add(null);
+      controller.onDateRangeChangedExternally(null);
       return;
     }
 
-    controller.startDate = dateRange.start;
-    controller.endDate = dateRange.end;
-    controller.onDateRangeChanged(dateRange);
-    _streamController.add(null);
+    controller.onDateRangeChangedExternally(dateRange);
+    currentMonth = dateRange.start;
   }
 }
