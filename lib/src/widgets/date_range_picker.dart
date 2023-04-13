@@ -140,7 +140,7 @@ class DateRangePickerWidget extends StatefulWidget {
   }) : super(key: key);
 
   /// Called whenever the selected date range is changed.
-  final ValueChanged<DateRange> onDateRangeChanged;
+  final ValueChanged<DateRange?> onDateRangeChanged;
 
   /// A list of quick selection dateRanges displayed at the top of the picker.
   final List<QuickDateRange> quickDateRanges;

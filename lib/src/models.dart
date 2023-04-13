@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/// A model that represents a date range.
+/// It is used to represent the selected date range in the calendar.
+/// * [start] - The start date of the date range.
+/// * [end] - The end date of the date range.
+/// * [duration] - The duration of the date range in days.
 class DateRange {
   final DateTime start;
   final DateTime end;
@@ -11,6 +16,9 @@ class DateRange {
   String toString() {
     return "${DateFormat('dd/MM/yyyy').format(start)} - ${DateFormat('dd/MM/yyyy').format(end)}";
   }
+
+  /// Returns the duration of the date range in days.
+  int get duration => end.difference(start).inDays;
 
   @override
   bool operator ==(Object other) {
@@ -130,8 +138,10 @@ class CalendarTheme {
 }
 
 /// A model that represents a quick selection dateRange in the quick selection widget.
+/// The date range is required but can be null. If null, the quick selection
+/// will reset the selected date range.
 class QuickDateRange {
-  final DateRange dateRange;
+  final DateRange? dateRange;
   final String label;
 
   QuickDateRange({required this.dateRange, required this.label});

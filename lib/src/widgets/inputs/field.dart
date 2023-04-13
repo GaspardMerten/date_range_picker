@@ -65,9 +65,7 @@ class DateRangeField extends StatelessWidget {
           pickerBuilder: pickerBuilder,
         );
 
-        if (dateRange != null) {
-          onDateRangeSelected?.call(dateRange);
-        }
+        onDateRangeSelected?.call(dateRange);
       };
     } else {
       return null;

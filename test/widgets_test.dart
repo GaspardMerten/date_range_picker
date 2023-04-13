@@ -31,7 +31,7 @@ void main() {
             initialDateRange: initialDateRange,
             minDate: minDate,
             maxDate: maxDate,
-            onDateRangeChanged: (DateRange dateRange) {},
+            onDateRangeChanged: (DateRange? dateRange) {},
           ),
         ),
       ));

@@ -182,12 +182,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget datePickerBuilder(
-          BuildContext context, dynamic Function(DateRange) onDateRangeChanged,
+          BuildContext context, dynamic Function(DateRange?) onDateRangeChanged,
           [bool doubleMonth = true]) =>
       DateRangePickerWidget(
         doubleMonth: doubleMonth,
         maximumDateRangeLength: 10,
         quickDateRanges: [
+          QuickDateRange(dateRange: null, label: "Remove date range"),
           QuickDateRange(
             label: 'Last 3 days',
             dateRange: DateRange(

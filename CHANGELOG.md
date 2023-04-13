@@ -1,3 +1,9 @@
+## 0.0.10
+
+* Adding the ability to specify a null quick period selection
+* Adding a duration property to the quick period.
+* Adding missing documentation for quick period
+
 ## 0.0.9
 
 * Removing BouncingScrollPhysics for the quick period selection

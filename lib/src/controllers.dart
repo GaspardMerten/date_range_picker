@@ -26,7 +26,7 @@ class RangePickerController {
 
   List<DateTime> disabledDates;
 
-  final ValueChanged<DateRange> onDateRangeChanged;
+  final ValueChanged<DateRange?> onDateRangeChanged;
 
   /// The minimum date that can be selected. (inclusive)
   DateTime? minDate;
@@ -240,7 +240,15 @@ class CalendarWidgetController {
     return controller.retrieveDeltaForMonth(nextMonth);
   }
 
-  void setDateRange(DateRange dateRange) {
+  void setDateRange(DateRange? dateRange) {
+    if (dateRange == null) {
+      controller.startDate = null;
+      controller.endDate = null;
+      controller.onDateRangeChanged(null);
+      _streamController.add(null);
+      return;
+    }
+
     controller.startDate = dateRange.start;
     controller.endDate = dateRange.end;
     controller.onDateRangeChanged(dateRange);

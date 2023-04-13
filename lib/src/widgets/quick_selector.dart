@@ -19,7 +19,7 @@ class QuickSelectorWidget extends StatelessWidget {
   final List<QuickDateRange> quickDateRanges;
 
   /// Called when a quick dateRange is selected.
-  final ValueChanged<DateRange> onDateRangeChanged;
+  final ValueChanged<DateRange?> onDateRangeChanged;
 
   /// The theme of the calendar.
   final CalendarTheme theme;

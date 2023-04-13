@@ -148,27 +148,31 @@ class DateRangePickerDialogFooter extends StatelessWidget {
   const DateRangePickerDialogFooter({
     super.key,
     this.selectedDateRange,
+    this.cancelText = "Cancel",
+    this.confirmText = "Confirm",
   });
 
+  final String cancelText;
+  final String confirmText;
   final DateRange? selectedDateRange;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: Text(cancelText),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(selectedDateRange);
             },
-            child: const Text('Confirm'),
+            child: Text(confirmText),
           ),
         ],
       ),
