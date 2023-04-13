@@ -1,3 +1,7 @@
+## 0.0.12
+
+* Solving an issue with the quick period selection
+
 ## 0.0.11
 
 * Focus on the first date when a quick period is selected

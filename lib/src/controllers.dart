@@ -177,6 +177,7 @@ class RangePickerController {
   void onDateRangeChangedExternally(DateRange? newRange) {
     startDate = newRange?.start;
     endDate = newRange?.end;
+    onDateRangeChanged(newRange);
   }
 }
 
