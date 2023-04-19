@@ -20,6 +20,12 @@ class DateRange {
   /// Returns the duration of the date range in days.
   int get duration => end.difference(start).inDays;
 
+  /// Returns whether the date range contains the given [date] or not.
+  bool contains(DateTime date) {
+    return (date.isAtSameMomentAs(start) || date.isAfter(start)) &&
+        (date.isAtSameMomentAs(end) || date.isBefore(end));
+  }
+
   @override
   bool operator ==(Object other) {
     // Check whether the other object is a QuickDateRange

@@ -1,3 +1,7 @@
+## 0.0.13
+
+* Adding contains method to the DateRange class.
+
 ## 0.0.12
 
 * Solving an issue with the quick period selection
