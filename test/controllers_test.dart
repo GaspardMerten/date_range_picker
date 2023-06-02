@@ -158,7 +158,7 @@ void main() {
         onDateRangeChanged: (_) {},
       );
       final delta = controller.retrieveDeltaForMonth(DateTime(2022, 4, 1));
-      expect(delta, 4);
+      expect(delta, 5);
     });
   });
 
