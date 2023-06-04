@@ -27,11 +27,14 @@ void main() {
 
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: DateRangePickerWidget(
-            initialDateRange: initialDateRange,
-            minDate: minDate,
-            maxDate: maxDate,
-            onDateRangeChanged: (DateRange? dateRange) {},
+          body: SizedBox(
+            height: 334,
+            child: DateRangePickerWidget(
+              initialDateRange: initialDateRange,
+              minDate: minDate,
+              maxDate: maxDate,
+              onDateRangeChanged: (DateRange? dateRange) {},
+            ),
           ),
         ),
       ));
