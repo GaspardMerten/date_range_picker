@@ -1,3 +1,7 @@
+## 0.0.14
+
+* Fixing weekdays alignment, thanks to **_mphash_**.
+
 ## 0.0.13
 
 * Adding contains method to the DateRange class.
