@@ -21,7 +21,8 @@ void main() {
   group('DateRangePickerWidget', () {
     testWidgets('renders correctly and initializes with initial dateRange',
         (WidgetTester tester) async {
-      final initialDateRange = DateRange(DateTime(2023, 1, 1), DateTime(2023, 1, 5));
+      final initialDateRange =
+          DateRange(DateTime(2023, 1, 1), DateTime(2023, 1, 5));
       final minDate = DateTime(2022, 1, 1);
       final maxDate = DateTime(2023, 12, 31);
 

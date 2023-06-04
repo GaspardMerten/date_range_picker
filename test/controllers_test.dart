@@ -67,7 +67,8 @@ void main() {
     });
 
     test(
-        'dateIsSelectable returns true when date is between minDate and maxDate', () {
+        'dateIsSelectable returns true when date is between minDate and maxDate',
+        () {
       final controller = RangePickerController(
         minDate: DateTime(2022, 4, 1),
         maxDate: DateTime(2022, 4, 30),
@@ -152,8 +153,8 @@ void main() {
       expect(dates[11].isInRange, true);
     });
 
-    test(
-        'retrieveDeltaForMonth returns the correct number of days to skip', () {
+    test('retrieveDeltaForMonth returns the correct number of days to skip',
+        () {
       final controller = RangePickerController(
         onDateRangeChanged: (_) {},
       );
@@ -162,7 +163,9 @@ void main() {
     });
   });
 
-  test('selectableDay for days + 10 in the future is false when start date is further than max dateRange (10 days) in this case. But true when before', () {
+  test(
+      'selectableDay for days + 10 in the future is false when start date is further than max dateRange (10 days) in this case. But true when before',
+      () {
     final controller = RangePickerController(
       startDate: DateTime(2022, 4, 10),
       maximumDateRangeLength: 10,
@@ -178,7 +181,9 @@ void main() {
     }
   });
 
-  test('dateIsSelectable returns false when start date is selected with min dateRange of 10 days if date is inside that dateRange, true otherwise.', () {
+  test(
+      'dateIsSelectable returns false when start date is selected with min dateRange of 10 days if date is inside that dateRange, true otherwise.',
+      () {
     final controller = RangePickerController(
       startDate: DateTime(2022, 4, 10),
       minimumDateRangeLength: 10,
@@ -194,7 +199,8 @@ void main() {
     }
   });
 
-  test('dateIsSelectable returns false when the date is specifically disabled', () {
+  test('dateIsSelectable returns false when the date is specifically disabled',
+      () {
     final controller = RangePickerController(
       disabledDates: [DateTime(2022, 4, 10)],
       onDateRangeChanged: (_) {},
@@ -208,9 +214,10 @@ void main() {
       onDateRangeChanged: (_) {},
     );
 
-    expect(controller.retrieveDatesForMonth(DateTime.now())[DateTime.now().day - 1].isToday, true);
+    expect(
+        controller
+            .retrieveDatesForMonth(DateTime.now())[DateTime.now().day - 1]
+            .isToday,
+        true);
   });
 }
-
-
-
