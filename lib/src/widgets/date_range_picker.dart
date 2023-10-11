@@ -54,10 +54,8 @@ Widget kDayTileBuilder(
     value: dayModel.date,
     onTap: dayModel.isSelectable ? onTap : null,
     radius: BorderRadius.horizontal(
-      left: Radius.circular(
-          dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
-      right: Radius.circular(
-          dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
+      left: Radius.circular(dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
+      right: Radius.circular(dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
     ),
     backgroundRadius: BorderRadius.horizontal(
       left: Radius.circular(dayModel.isStart ? theme.radius : 0),
@@ -137,6 +135,8 @@ class DateRangePickerWidget extends StatefulWidget {
     this.quickDateRanges = const [],
     this.doubleMonth = true,
     this.height = 329,
+    this.displayMonthsSeparator = true,
+    this.separatorThickness = 1,
   }) : super(key: key);
 
   /// Called whenever the selected date range is changed.
@@ -175,6 +175,12 @@ class DateRangePickerWidget extends StatefulWidget {
   /// The theme used to customize the appearance of the picker.
   final CalendarTheme theme;
 
+  /// Used to either display or hide the vertical separator between months if [doubleMonth] mode is active
+  final bool displayMonthsSeparator;
+
+  /// Thickness of the vertical separator between months if [doubleMonth] mode is active
+  final double separatorThickness;
+
   @override
   State<DateRangePickerWidget> createState() => DateRangePickerWidgetState();
 }
@@ -192,9 +198,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
 
   late final calendarController = CalendarWidgetController(
     controller: controller,
-    currentMonth: widget.initialDisplayedDate ??
-        widget.initialDateRange?.start ??
-        DateTime.now(),
+    currentMonth: widget.initialDisplayedDate ?? widget.initialDateRange?.start ?? DateTime.now(),
   );
 
   late final StreamSubscription subscription;
@@ -233,22 +237,30 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         const SizedBox(
           height: 20,
         ),
-        Row(
-          children: [
-            EnrichedMonthWrapWidget(
-              theme: widget.theme,
-              onDateChanged: calendarController.onDateChanged,
-              days: calendarController.retrieveDatesForMonth(),
-              delta: calendarController.retrieveDeltaForMonth(),
-            ),
-            if (widget.doubleMonth)
+        IntrinsicHeight(
+          child: Row(
+            children: [
               EnrichedMonthWrapWidget(
                 theme: widget.theme,
                 onDateChanged: calendarController.onDateChanged,
-                days: calendarController.retrieveDatesForNextMonth(),
-                delta: calendarController.retrieveDeltaForNextMonth(),
+                days: calendarController.retrieveDatesForMonth(),
+                delta: calendarController.retrieveDeltaForMonth(),
               ),
-          ],
+              if (widget.doubleMonth) ...{
+                if (widget.displayMonthsSeparator)
+                  VerticalDivider(
+                    thickness: widget.separatorThickness,
+                    color: widget.theme.separatorColor,
+                  ),
+                EnrichedMonthWrapWidget(
+                  theme: widget.theme,
+                  onDateChanged: calendarController.onDateChanged,
+                  days: calendarController.retrieveDatesForNextMonth(),
+                  delta: calendarController.retrieveDeltaForNextMonth(),
+                ),
+              }
+            ],
+          ),
         ),
       ],
     );
