@@ -54,8 +54,10 @@ Widget kDayTileBuilder(
     value: dayModel.date,
     onTap: dayModel.isSelectable ? onTap : null,
     radius: BorderRadius.horizontal(
-      left: Radius.circular(dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
-      right: Radius.circular(dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
+      left: Radius.circular(
+          dayModel.isEnd && dayModel.isInRange ? 0 : theme.radius),
+      right: Radius.circular(
+          dayModel.isStart && dayModel.isInRange ? 0 : theme.radius),
     ),
     backgroundRadius: BorderRadius.horizontal(
       left: Radius.circular(dayModel.isStart ? theme.radius : 0),
@@ -198,7 +200,9 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
 
   late final calendarController = CalendarWidgetController(
     controller: controller,
-    currentMonth: widget.initialDisplayedDate ?? widget.initialDateRange?.start ?? DateTime.now(),
+    currentMonth: widget.initialDisplayedDate ??
+        widget.initialDateRange?.start ??
+        DateTime.now(),
   );
 
   late final StreamSubscription subscription;

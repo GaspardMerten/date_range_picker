@@ -22,7 +22,8 @@ class DateRange {
 
   /// Returns whether the date range contains the given [date] or not.
   bool contains(DateTime date) {
-    return (date.isAtSameMomentAs(start) || date.isAfter(start)) && (date.isAtSameMomentAs(end) || date.isBefore(end));
+    return (date.isAtSameMomentAs(start) || date.isAfter(start)) &&
+        (date.isAtSameMomentAs(end) || date.isBefore(end));
   }
 
   @override
@@ -125,25 +126,25 @@ class CalendarTheme {
   /// The color of the vertical separator between months
   final Color? separatorColor;
 
-  const CalendarTheme({
-    required this.selectedColor,
-    required this.inRangeColor,
-    required this.inRangeTextStyle,
-    required this.selectedTextStyle,
-    required this.todayTextStyle,
-    required this.defaultTextStyle,
-    required this.disabledTextStyle,
-    this.quickDateRangeTextStyle = const TextStyle(
-      color: Colors.black,
-      fontSize: 14,
-    ),
-    this.monthTextStyle,
-    this.dayNameTextStyle = const TextStyle(color: Colors.black45, fontSize: 10),
-    required this.radius,
-    required this.tileSize,
-    this.selectedQuickDateRangeColor,
-    this.separatorColor,
-  });
+  const CalendarTheme(
+      {required this.selectedColor,
+      required this.inRangeColor,
+      required this.inRangeTextStyle,
+      required this.selectedTextStyle,
+      required this.todayTextStyle,
+      required this.defaultTextStyle,
+      required this.disabledTextStyle,
+      this.quickDateRangeTextStyle = const TextStyle(
+        color: Colors.black,
+        fontSize: 14,
+      ),
+      this.monthTextStyle,
+      this.dayNameTextStyle =
+          const TextStyle(color: Colors.black45, fontSize: 10),
+      required this.radius,
+      required this.tileSize,
+      this.selectedQuickDateRangeColor,
+      this.separatorColor});
 }
 
 /// A model that represents a quick selection dateRange in the quick selection widget.
