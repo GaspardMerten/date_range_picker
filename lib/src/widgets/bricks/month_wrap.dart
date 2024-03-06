@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/src/models.dart';
+import 'package:flutter_date_range_picker/src/utils.dart';
 
 /// A widget that displays a wrap of a month's worth of day tiles.
 class MonthWrapWidget extends StatelessWidget {
   /// Constructs a [MonthWrapWidget] widget.
-  const MonthWrapWidget({
+  MonthWrapWidget({
     Key? key,
-    required this.days,
+    required List<DayModel> days,
     required this.delta,
     required this.dayTileBuilder,
     required this.placeholderBuilder,
-  }) : super(key: key);
+    this.firstDayOfWeek = 0,
+  })  : days = days.shiftBy(firstDayOfWeek),
+        super(key: key);
 
   /// The list of [DayModel]s to display.
   final List<DayModel> days;
@@ -23,6 +26,9 @@ class MonthWrapWidget extends StatelessWidget {
 
   /// A builder that builds a placeholder widget given a delta index.
   final Widget Function(int deltaIndex) placeholderBuilder;
+
+  /// 0=Sun (default), 1=Mon, ...
+  final int firstDayOfWeek;
 
   @override
   Widget build(BuildContext context) {

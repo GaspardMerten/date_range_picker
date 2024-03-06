@@ -1,5 +1,5 @@
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -231,5 +231,6 @@ class _MyHomePageState extends State<MyHomePage> {
         initialDisplayedDate:
             selectedDateRange?.start ?? DateTime(2023, 11, 20),
         onDateRangeChanged: onDateRangeChanged,
+        firstDayOfWeek: 1,
       );
 }
