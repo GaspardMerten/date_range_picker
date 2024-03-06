@@ -237,13 +237,13 @@ class CalendarWidgetController {
   }
 
   /// Returns the number of days to skip at the beginning of the current month.
-  int retrieveDeltaForMonth() {
-    return controller.retrieveDeltaForMonth(currentMonth);
+  int retrieveDeltaForMonth(int firstDayOfWeek) {
+    return controller.retrieveDeltaForMonth(currentMonth) - firstDayOfWeek;
   }
 
   /// Returns the number of days to skip at the beginning of the next month.
-  int retrieveDeltaForNextMonth() {
-    return controller.retrieveDeltaForMonth(nextMonth);
+  int retrieveDeltaForNextMonth(int firstDayOfWeek) {
+    return controller.retrieveDeltaForMonth(nextMonth) - firstDayOfWeek;
   }
 
   void setDateRange(DateRange? dateRange) {
