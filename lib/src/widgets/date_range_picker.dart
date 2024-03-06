@@ -139,6 +139,7 @@ class DateRangePickerWidget extends StatefulWidget {
     this.height = 329,
     this.displayMonthsSeparator = true,
     this.separatorThickness = 1,
+    this.allowSingleTapDaySelection = false,
   }) : super(key: key);
 
   /// Called whenever the selected date range is changed.
@@ -174,6 +175,11 @@ class DateRangePickerWidget extends StatefulWidget {
   /// A list of dates that are disabled and cannot be selected.
   final List<DateTime> disabledDates;
 
+  /// Set [allowSingleTapDaySelection] to true to allow single day selection
+  /// with just one click (to avoid the user being required to tap on the same
+  /// day twice).
+  final bool allowSingleTapDaySelection;
+
   /// The theme used to customize the appearance of the picker.
   final CalendarTheme theme;
 
@@ -196,6 +202,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     disabledDates: widget.disabledDates,
     minimumDateRangeLength: widget.minimumDateRangeLength,
     maximumDateRangeLength: widget.maximumDateRangeLength,
+    allowSingleTapDaySelection: widget.allowSingleTapDaySelection,
   );
 
   late final calendarController = CalendarWidgetController(
