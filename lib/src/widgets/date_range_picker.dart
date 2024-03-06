@@ -77,17 +77,19 @@ class DayNamesRow extends StatelessWidget {
     Key? key,
     required this.textStyle,
     List<String>? weekDays,
+    this.firstDayOfWeek = 0,
   })  : weekDays = weekDays ?? defaultWeekDays(),
         super(key: key);
 
   final TextStyle textStyle;
   final List<String> weekDays;
+  final int firstDayOfWeek;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (var day in weekDays)
+        for (var day in weekDays.shiftBy(firstDayOfWeek))
           Expanded(
             child: Center(
               child: Text(
@@ -140,7 +142,12 @@ class DateRangePickerWidget extends StatefulWidget {
     this.displayMonthsSeparator = true,
     this.separatorThickness = 1,
     this.allowSingleTapDaySelection = false,
-  }) : super(key: key);
+    this.firstDayOfWeek = 0,
+  })  : assert(
+          firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
+          'firstDayOfWeek must be in the range [0..6].',
+        ),
+        super(key: key);
 
   /// Called whenever the selected date range is changed.
   final ValueChanged<DateRange?> onDateRangeChanged;
@@ -188,6 +195,9 @@ class DateRangePickerWidget extends StatefulWidget {
 
   /// Thickness of the vertical separator between months if [doubleMonth] mode is active
   final double separatorThickness;
+
+  /// First day of week shown in the calendar: 0=Sun (default), 1=Mon, ...
+  final int firstDayOfWeek;
 
   @override
   State<DateRangePickerWidget> createState() => DateRangePickerWidgetState();
@@ -256,6 +266,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 onDateChanged: calendarController.onDateChanged,
                 days: calendarController.retrieveDatesForMonth(),
                 delta: calendarController.retrieveDeltaForMonth(),
+                firstDayOfWeek: widget.firstDayOfWeek,
               ),
               if (widget.doubleMonth) ...{
                 if (widget.displayMonthsSeparator)
@@ -268,6 +279,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                   onDateChanged: calendarController.onDateChanged,
                   days: calendarController.retrieveDatesForNextMonth(),
                   delta: calendarController.retrieveDeltaForNextMonth(),
+                  firstDayOfWeek: widget.firstDayOfWeek,
                 ),
               }
             ],
@@ -322,6 +334,7 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
     required this.onDateChanged,
     required this.days,
     required this.delta,
+    this.firstDayOfWeek = 0,
   }) : super(key: key);
 
   /// The theme to use for the calendar.
@@ -336,6 +349,9 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
   /// The number of days to pad at the beginning of the grid.
   final int delta;
 
+  /// 0=Sun (default), 1=Mon, ...
+  final int firstDayOfWeek;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -344,6 +360,7 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
         children: [
           DayNamesRow(
             textStyle: theme.dayNameTextStyle,
+            firstDayOfWeek: firstDayOfWeek,
           ),
           const SizedBox(height: 16),
           MonthWrapWidget(
@@ -355,6 +372,7 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
               onDateChanged,
             ),
             placeholderBuilder: (index) => buildPlaceholder(),
+            firstDayOfWeek: firstDayOfWeek,
           ),
         ],
       ),
