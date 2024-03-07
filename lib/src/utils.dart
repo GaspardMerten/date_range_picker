@@ -6,5 +6,6 @@ List<String> defaultWeekDays() =>
 
 extension ListUtils on List {
   /// Shifts the list by "amount" places
-  shiftBy(int amount) => sublist(amount)..addAll(sublist(0, amount));
+  shiftBy(int amount) =>
+      amount > 0 ? (sublist(amount)..addAll(sublist(0, amount))) : this;
 }

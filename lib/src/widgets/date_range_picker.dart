@@ -77,19 +77,18 @@ class DayNamesRow extends StatelessWidget {
     Key? key,
     required this.textStyle,
     List<String>? weekDays,
-    this.firstDayOfWeek = 0,
-  })  : weekDays = weekDays ?? defaultWeekDays(),
+    int firstDayOfWeek = 0,
+  })  : weekDays = (weekDays ?? defaultWeekDays()).shiftBy(firstDayOfWeek),
         super(key: key);
 
   final TextStyle textStyle;
   final List<String> weekDays;
-  final int firstDayOfWeek;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        for (var day in weekDays.shiftBy(firstDayOfWeek))
+        for (var day in weekDays)
           Expanded(
             child: Center(
               child: Text(
@@ -265,7 +264,8 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 theme: widget.theme,
                 onDateChanged: calendarController.onDateChanged,
                 days: calendarController.retrieveDatesForMonth(),
-                delta: calendarController.retrieveDeltaForMonth(),
+                delta: calendarController
+                    .retrieveDeltaForMonth(widget.firstDayOfWeek),
                 firstDayOfWeek: widget.firstDayOfWeek,
               ),
               if (widget.doubleMonth) ...{
@@ -278,7 +278,8 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                   theme: widget.theme,
                   onDateChanged: calendarController.onDateChanged,
                   days: calendarController.retrieveDatesForNextMonth(),
-                  delta: calendarController.retrieveDeltaForNextMonth(),
+                  delta: calendarController
+                      .retrieveDeltaForNextMonth(widget.firstDayOfWeek),
                   firstDayOfWeek: widget.firstDayOfWeek,
                 ),
               }
@@ -372,7 +373,6 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
               onDateChanged,
             ),
             placeholderBuilder: (index) => buildPlaceholder(),
-            firstDayOfWeek: firstDayOfWeek,
           ),
         ],
       ),

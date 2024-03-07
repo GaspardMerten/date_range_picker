@@ -186,7 +186,6 @@ class _MyHomePageState extends State<MyHomePage> {
           [bool doubleMonth = true]) =>
       DateRangePickerWidget(
         doubleMonth: doubleMonth,
-        maximumDateRangeLength: 10,
         quickDateRanges: [
           QuickDateRange(dateRange: null, label: "Remove date range"),
           QuickDateRange(
@@ -226,11 +225,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         minimumDateRangeLength: 3,
+        maximumDateRangeLength: 40,
         initialDateRange: selectedDateRange,
-        disabledDates: [DateTime(2023, 11, 20)],
-        initialDisplayedDate:
-            selectedDateRange?.start ?? DateTime(2023, 11, 20),
+        disabledDates: [
+          DateTime.now(),
+          DateTime.now().subtract(const Duration(days: 1)),
+        ],
+        initialDisplayedDate: selectedDateRange?.start ?? DateTime.now(),
         onDateRangeChanged: onDateRangeChanged,
         firstDayOfWeek: 1,
+        height: 350,
       );
 }
