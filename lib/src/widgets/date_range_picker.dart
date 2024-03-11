@@ -274,8 +274,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          Container(
             width: 200,
+            color: widget.theme.quickDateRangeBackgroundColor,
+            padding: const EdgeInsets.only(right: 16),
             child: QuickSelectorWidget(
               selectedDateRange: controller.dateRange,
               quickDateRanges: widget.quickDateRanges,
@@ -289,7 +291,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
             color: Colors.black12,
             width: 1,
             height: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.only(right: 16),
           ),
           child,
           if (widget.quickDateRanges.isNotEmpty)

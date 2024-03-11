@@ -231,5 +231,20 @@ class _MyHomePageState extends State<MyHomePage> {
         initialDisplayedDate:
             selectedDateRange?.start ?? DateTime(2023, 11, 20),
         onDateRangeChanged: onDateRangeChanged,
+        height: 350,
+        theme: const CalendarTheme(
+          selectedColor: Colors.blue,
+          dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),
+          inRangeColor: Color(0xFFD9EDFA),
+          inRangeTextStyle: TextStyle(color: Colors.blue),
+          selectedTextStyle: TextStyle(color: Colors.white),
+          todayTextStyle: TextStyle(fontWeight: FontWeight.bold),
+          defaultTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+          radius: 10,
+          tileSize: 40,
+          disabledTextStyle: TextStyle(color: Colors.grey),
+          quickDateRangeBackgroundColor: Color(0xFFDAEDF7),
+          selectedQuickDateRangeColor: Colors.blue,
+        ),
       );
 }

@@ -123,6 +123,9 @@ class CalendarTheme {
   /// The color of the selected quick selection dateRange (left border).
   final Color? selectedQuickDateRangeColor;
 
+  /// The background color of the sidebar holding quick selections
+  final Color? quickDateRangeBackgroundColor;
+
   /// The color of the vertical separator between months
   final Color? separatorColor;
 
@@ -138,6 +141,7 @@ class CalendarTheme {
         color: Colors.black,
         fontSize: 14,
       ),
+      this.quickDateRangeBackgroundColor,
       this.monthTextStyle,
       this.dayNameTextStyle =
           const TextStyle(color: Colors.black45, fontSize: 10),
