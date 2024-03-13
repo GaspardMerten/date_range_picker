@@ -145,7 +145,8 @@ class DateRangePickerWidget extends StatefulWidget {
           firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
           'firstDayOfWeek must be in the range [0..6].',
         ),
-        super(key: key);
+        this.allowSingleTapDaySelection = false,
+  }) : super(key: key);
 
   /// Called whenever the selected date range is changed.
   final ValueChanged<DateRange?> onDateRangeChanged;
@@ -180,6 +181,11 @@ class DateRangePickerWidget extends StatefulWidget {
   /// A list of dates that are disabled and cannot be selected.
   final List<DateTime> disabledDates;
 
+  /// Set [allowSingleTapDaySelection] to true to allow single day selection
+  /// with just one click (to avoid the user being required to tap on the same
+  /// day twice).
+  final bool allowSingleTapDaySelection;
+
   /// The theme used to customize the appearance of the picker.
   final CalendarTheme theme;
 
@@ -205,6 +211,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     disabledDates: widget.disabledDates,
     minimumDateRangeLength: widget.minimumDateRangeLength,
     maximumDateRangeLength: widget.maximumDateRangeLength,
+    allowSingleTapDaySelection: widget.allowSingleTapDaySelection,
   );
 
   late final calendarController = CalendarWidgetController(
@@ -287,8 +294,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          Container(
             width: 200,
+            color: widget.theme.quickDateRangeBackgroundColor,
+            padding: const EdgeInsets.only(right: 16),
             child: QuickSelectorWidget(
               selectedDateRange: controller.dateRange,
               quickDateRanges: widget.quickDateRanges,
@@ -302,7 +311,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
             color: Colors.black12,
             width: 1,
             height: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin: const EdgeInsets.only(right: 16),
           ),
           child,
           if (widget.quickDateRanges.isNotEmpty)

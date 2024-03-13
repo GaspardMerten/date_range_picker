@@ -14,7 +14,8 @@ class RangePickerController {
       this.endDate,
       this.minimumDateRangeLength,
       this.maximumDateRangeLength,
-      this.disabledDates = const []}) {
+      this.disabledDates = const [],
+      this.allowSingleTapDaySelection = false}) {
     if (dateRange != null) {
       startDate = dateRange.start;
       endDate = dateRange.end;
@@ -25,6 +26,8 @@ class RangePickerController {
   int? minimumDateRangeLength;
 
   List<DateTime> disabledDates;
+
+  final bool allowSingleTapDaySelection;
 
   final ValueChanged<DateRange?> onDateRangeChanged;
 
@@ -70,6 +73,9 @@ class RangePickerController {
     } else {
       startDate = date;
       endDate = null;
+      if (allowSingleTapDaySelection) {
+        onDateRangeChanged(DateRange(startDate!, startDate!));
+      }
     }
   }
 
