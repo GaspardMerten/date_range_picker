@@ -77,8 +77,11 @@ class DayNamesRow extends StatelessWidget {
     Key? key,
     required this.textStyle,
     List<String>? weekDays,
+    int lengthOfDateName = 3,
     int firstDayOfWeek = 0,
-  })  : weekDays = (weekDays ?? defaultWeekDays()).shiftBy(firstDayOfWeek),
+  })  : weekDays =
+            (weekDays ?? defaultWeekDays(lengthOfDateNames: lengthOfDateName))
+                .shiftBy(firstDayOfWeek),
         super(key: key);
 
   final TextStyle textStyle;
@@ -142,11 +145,14 @@ class DateRangePickerWidget extends StatefulWidget {
     this.separatorThickness = 1,
     this.allowSingleTapDaySelection = false,
     this.firstDayOfWeek = 0,
+    this.lengthOfDateName = 3,
   })  : assert(
           firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
           'firstDayOfWeek must be in the range [0..6].',
         ),
         super(key: key);
+
+  final int lengthOfDateName;
 
   /// Called whenever the selected date range is changed.
   final ValueChanged<DateRange?> onDateRangeChanged;
@@ -267,6 +273,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 delta: calendarController
                     .retrieveDeltaForMonth(widget.firstDayOfWeek),
                 firstDayOfWeek: widget.firstDayOfWeek,
+                lengthOfDateName: widget.lengthOfDateName,
               ),
               if (widget.doubleMonth) ...{
                 if (widget.displayMonthsSeparator)
@@ -338,10 +345,13 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
     required this.days,
     required this.delta,
     this.firstDayOfWeek = 0,
+    this.lengthOfDateName = 3,
   }) : super(key: key);
 
   /// The theme to use for the calendar.
   final CalendarTheme theme;
+
+  final int lengthOfDateName;
 
   /// A callback that is called when the selected date changes.
   final ValueChanged<DateTime> onDateChanged;
@@ -364,6 +374,7 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
           DayNamesRow(
             textStyle: theme.dayNameTextStyle,
             firstDayOfWeek: firstDayOfWeek,
+            lengthOfDateName: lengthOfDateName,
           ),
           const SizedBox(height: 16),
           MonthWrapWidget(
