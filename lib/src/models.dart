@@ -80,6 +80,11 @@ class DayModel {
     required this.isEnd,
     required this.isInRange,
   });
+
+  @override
+  String toString() {
+    return 'DayModel{date: ${DateFormat.yMd().format(date)}';
+  }
 }
 
 /// A customizable theme for the calendar widget.
