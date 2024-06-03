@@ -1,3 +1,12 @@
+# 0.1.1
+
+- Bumping intl version (0.18 - 0.20.0)
+
+# 0.1.0
+
+- Making the package compatible with Dart 3.3.3 
+- Fixing border radius for quick period selector.
+
 ## 0.0.14
 
 * Fixing weekdays alignment, thanks to **_mphash_**.
