@@ -1,10 +1,10 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\Users\gaspa\tools\flutter
-FLUTTER_APPLICATION_PATH=C:\Users\gaspa\Documents\Dev\OpenSource\Pub\date_range_picker
+FLUTTER_ROOT=/opt/flutter
+FLUTTER_APPLICATION_PATH=/home/mauriziopinotti/Projects/easyhour/date_range_picker
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=0.0.1
-FLUTTER_BUILD_NUMBER=0.0.1
+FLUTTER_BUILD_NAME=0.0.14
+FLUTTER_BUILD_NUMBER=0.0.14
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
