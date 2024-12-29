@@ -54,18 +54,19 @@ Future<DateRange?> showDateRangePickerDialogOnWidget({
   Color barrierColor = Colors.transparent,
   Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
   Offset delta = const Offset(0, 60),
-}) {
+}) async {
   // Compute widget position on screen
   final RenderBox renderBox = widgetContext.findRenderObject() as RenderBox;
   final Offset offset = renderBox.localToGlobal(Offset.zero);
 
   // Show the dateRange picker dialog and get the selected date range
-  final dateRange = showDateRangePickerDialog(
-      context: context ?? widgetContext,
-      footerBuilder: dialogFooterBuilder,
-      barrierColor: barrierColor,
-      builder: pickerBuilder,
-      offset: offset + delta);
+  final dateRange = await showDateRangePickerDialog(
+    context: context ?? widgetContext,
+    footerBuilder: dialogFooterBuilder,
+    barrierColor: barrierColor,
+    builder: pickerBuilder,
+    offset: offset + delta,
+  );
 
   return dateRange;
 }

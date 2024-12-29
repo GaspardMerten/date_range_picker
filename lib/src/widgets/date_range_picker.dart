@@ -137,7 +137,7 @@ class DateRangePickerWidget extends StatefulWidget {
     this.disabledDates = const [],
     this.quickDateRanges = const [],
     this.doubleMonth = true,
-    this.height = 329,
+    this.height = 330,
     this.displayMonthsSeparator = true,
     this.separatorThickness = 1,
     this.firstDayOfWeek = 0,
@@ -296,7 +296,12 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         children: [
           Container(
             width: 200,
-            color: widget.theme.quickDateRangeBackgroundColor,
+            decoration: BoxDecoration(
+              color: widget.theme.quickDateRangeBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(widget.theme.radius),
+              ),
+            ),
             padding: const EdgeInsets.only(right: 16),
             child: QuickSelectorWidget(
               selectedDateRange: controller.dateRange,
