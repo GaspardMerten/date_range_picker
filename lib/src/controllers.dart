@@ -93,6 +93,7 @@ class RangePickerController {
   }
 
   /// Returns whether the [date] is selectable or not. (i.e. if it is between the [minDate] and the [maxDate])
+  /// Returns whether the [date] is selectable or not. (i.e. if it is between the [minDate] and the [maxDate])
   bool dateIsSelectable(DateTime date) {
     for (final DateTime disabledDay in disabledDates) {
       if (areSameDay(disabledDay, date)) {
@@ -100,8 +101,23 @@ class RangePickerController {
       }
     }
 
-    if (startDate != null && endDate == null) {
-      var dateDifference = date.difference(startDate!).inDays;
+    DateTime tmpDate = date.toUtc();
+    tmpDate = tmpDate.add(date.timeZoneOffset);
+
+    DateTime? tmpStartDate;
+    DateTime? tmpEndDate;
+
+    if (startDate != null) {
+      tmpStartDate = startDate!.toUtc();
+      tmpStartDate = tmpStartDate.add(startDate!.timeZoneOffset);
+    }
+    if (endDate != null) {
+      tmpEndDate = endDate!.toUtc();
+      tmpEndDate = tmpEndDate.add(endDate!.timeZoneOffset);
+    }
+
+    if (tmpStartDate != null && tmpEndDate == null) {
+      var dateDifference = tmpDate.difference(tmpStartDate).inDays;
       if (maximumDateRangeLength != null &&
           dateDifference + 1 > maximumDateRangeLength!) {
         return false;
@@ -114,10 +130,10 @@ class RangePickerController {
       }
     }
 
-    if (minDate != null && date.isBefore(minDate!)) {
+    if (minDate != null && tmpDate.isBefore(minDate!)) {
       return false;
     }
-    if (maxDate != null && date.isAfter(maxDate!)) {
+    if (maxDate != null && tmpDate.isAfter(maxDate!)) {
       return false;
     }
     return true;
