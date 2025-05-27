@@ -128,8 +128,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             const SizedBox(height: 20),
                             const Text("A button to open the picker:"),
                             TextButton(
-                              onPressed: () => showDateRangePickerDialog(
-                                  context: context, builder: datePickerBuilder),
+                              onPressed: () => showDateRangePickerModalDialog(
+                                  context: context, builder: datePickerBuilder).then(
+                                (value) {
+                                  debugPrint("Selected date range: $value");
+                                }
+                              ),
                               child: const Text("Open the picker"),
                             ),
                             const SizedBox(height: 20),
@@ -202,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BuildContext context, dynamic Function(DateRange?) onDateRangeChanged,
           [bool doubleMonth = true]) =>
       DateRangePickerWidget(
+        firstDayOfWeek: 1, // 1 = Monday
         doubleMonth: doubleMonth,
         maximumDateRangeLength: 10,
         quickDateRanges: [
@@ -245,6 +250,7 @@ class _MyHomePageState extends State<MyHomePage> {
         minimumDateRangeLength: 3,
         initialDateRange: selectedDateRange,
         disabledDates: [DateTime(2023, 11, 20)],
+        maxDate: DateTime(2023, 12, 31),
         initialDisplayedDate:
             selectedDateRange?.start ?? DateTime(2023, 11, 20),
         onDateRangeChanged: onDateRangeChanged,

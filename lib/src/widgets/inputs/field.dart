@@ -36,6 +36,7 @@ class DateRangeField extends StatelessWidget {
   final Future<DateRange?> Function({
     required BuildContext widgetContext,
     required DateRangerPickerWidgetBuilder pickerBuilder,
+    Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
   }) showDateRangePicker;
 
   @override
@@ -63,6 +64,7 @@ class DateRangeField extends StatelessWidget {
         final DateRange? dateRange = await showDateRangePicker(
           widgetContext: context,
           pickerBuilder: pickerBuilder,
+          dialogFooterBuilder: dialogFooterBuilder,
         );
 
         onDateRangeSelected?.call(dateRange);

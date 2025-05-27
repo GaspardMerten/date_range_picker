@@ -58,16 +58,23 @@ class RangePickerController {
   /// will be set to the [date] parameter and the [endDate] will be set to null.
   /// If the [startDate] is not null and the [endDate] is not null, the [startDate] will be set
   /// to the [date] parameter and the [endDate] will be set to null.
+  /// If the [allowSingleTapDaySelection] is true, the [endDate] will be set to the [startDate]
+  /// when the [date] is equal to the [startDate].
   void onDateChanged(DateTime date) {
     if (startDate == null) {
       startDate = date;
       onDateRangeChanged(DateRange(startDate!, startDate!));
     } else if (endDate == null) {
-      if (date.isBefore(startDate!)) {
-        startDate = date;
-        endDate = null;
-      } else {
+      if (date == startDate) {
         endDate = date;
+        onDateRangeChanged(DateRange(startDate!, endDate!));
+      } else {
+        if (date.isBefore(startDate!)) {
+          endDate = startDate;
+          startDate = date;
+        } else {
+          endDate = date;
+        }
         onDateRangeChanged(DateRange(startDate!, endDate!));
       }
     } else {
@@ -100,8 +107,23 @@ class RangePickerController {
       }
     }
 
-    if (startDate != null && endDate == null) {
-      var dateDifference = date.difference(startDate!).inDays;
+    DateTime localizedDate = date.toUtc();
+    localizedDate = localizedDate.add(date.timeZoneOffset);
+
+    DateTime? tmpStartDate;
+    DateTime? tmpEndDate;
+
+    if (startDate != null) {
+      tmpStartDate = startDate!.toUtc();
+      tmpStartDate = tmpStartDate.add(startDate!.timeZoneOffset);
+    }
+    if (endDate != null) {
+      tmpEndDate = endDate!.toUtc();
+      tmpEndDate = tmpEndDate.add(endDate!.timeZoneOffset);
+    }
+
+    if (tmpStartDate != null && tmpEndDate == null) {
+      var dateDifference = localizedDate.difference(tmpStartDate).inDays;
       if (maximumDateRangeLength != null &&
           dateDifference + 1 > maximumDateRangeLength!) {
         return false;
@@ -114,12 +136,14 @@ class RangePickerController {
       }
     }
 
-    if (minDate != null && date.isBefore(minDate!)) {
+    if (minDate != null && localizedDate.isBefore(minDate!)) {
       return false;
     }
-    if (maxDate != null && date.isAfter(maxDate!)) {
+
+    if (maxDate != null && localizedDate.isAfter(maxDate!)) {
       return false;
     }
+
     return true;
   }
 
@@ -243,13 +267,13 @@ class CalendarWidgetController {
   }
 
   /// Returns the number of days to skip at the beginning of the current month.
-  int retrieveDeltaForMonth() {
-    return controller.retrieveDeltaForMonth(currentMonth);
+  int retrieveDeltaForMonth(int firstDayOfWeek) {
+    return controller.retrieveDeltaForMonth(currentMonth) - firstDayOfWeek;
   }
 
   /// Returns the number of days to skip at the beginning of the next month.
-  int retrieveDeltaForNextMonth() {
-    return controller.retrieveDeltaForMonth(nextMonth);
+  int retrieveDeltaForNextMonth(int firstDayOfWeek) {
+    return controller.retrieveDeltaForMonth(nextMonth) - firstDayOfWeek;
   }
 
   void setDateRange(DateRange? dateRange) {

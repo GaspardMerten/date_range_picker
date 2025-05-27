@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
+import 'package:intl/intl.dart';
 
-/// A function to show the dateRange picker dialog.
+/// A function to show the dateRange picker dialog at a specific offset.
 ///
 /// * [context] - The context of the dialog.
 /// * [builder] - A builder to construct the date range picker widget.
@@ -10,7 +11,7 @@ import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
 ///  * [footerBuilder] - A builder to construct the footer widget of the dialog.
 ///  * [offset] - The offset of the dialog from the widget.
 ///  * [onDateRangeSelected] - Called when a date range is selected.
-Future<DateRange?> showDateRangePickerDialog({
+Future<DateRange?> showDateRangePickerDialogWithOffset({
   required BuildContext context,
   required DateRangerPickerWidgetBuilder builder,
   Color barrierColor = Colors.transparent,
@@ -39,6 +40,37 @@ Future<DateRange?> showDateRangePickerDialog({
   );
 }
 
+/// A function to show the dateRange picker dialog in a modal dialog.
+///
+/// * [context] - The context of the dialog.
+/// * [builder] - A builder to construct the date range picker widget.
+///  * [barrierColor] - The color of the barrier.
+///  * [footerBuilder] - A builder to construct the footer widget of the dialog.
+///  * [offset] - The offset of the dialog from the widget.
+///  * [onDateRangeSelected] - Called when a date range is selected.
+Future<DateRange?> showDateRangePickerModalDialog({
+  required BuildContext context,
+  required DateRangerPickerWidgetBuilder builder,
+  Color barrierColor = Colors.transparent,
+  Widget Function({DateRange? selectedDateRange})? footerBuilder,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    barrierLabel: 'DateRangePickerDialogBarrier',
+    builder: (_) => ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 400,
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+        ),
+        child: Dialog(
+            child: DateRangePickerDialog(
+          builder: builder,
+          footerBuilder: footerBuilder ?? DateRangePickerDialogFooter.new,
+        ))),
+  );
+}
+
 /// A function to show the dateRange picker dialog on a widget.
 /// * [widgetContext] - The context of the widget that will be used to show the dialog.
 /// * [context] - The context of the dialog. If null, the [widgetContext] will be used.
@@ -60,7 +92,7 @@ Future<DateRange?> showDateRangePickerDialogOnWidget({
   final Offset offset = renderBox.localToGlobal(Offset.zero);
 
   // Show the dateRange picker dialog and get the selected date range
-  final dateRange = await showDateRangePickerDialog(
+  final dateRange = await showDateRangePickerDialogWithOffset(
     context: context ?? widgetContext,
     footerBuilder: dialogFooterBuilder,
     barrierColor: barrierColor,
@@ -104,7 +136,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withAlpha(20),
               spreadRadius: 2,
               blurRadius: 4,
               offset: const Offset(0, 2), // changes position of shadow
@@ -124,7 +156,7 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> {
                     border: Border(
                       bottom: BorderSide(
                         width: 2,
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withAlpha(20),
                       ),
                     ),
                   ),
@@ -149,12 +181,12 @@ class DateRangePickerDialogFooter extends StatelessWidget {
   const DateRangePickerDialogFooter({
     super.key,
     this.selectedDateRange,
-    this.cancelText = "Cancel",
-    this.confirmText = "Confirm",
+    this.cancelText,
+    this.confirmText,
   });
 
-  final String cancelText;
-  final String confirmText;
+  final String? cancelText;
+  final String? confirmText;
   final DateRange? selectedDateRange;
 
   @override
@@ -167,14 +199,15 @@ class DateRangePickerDialogFooter extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(cancelText),
+            child:
+                Text(cancelText ?? Intl.message("Cancel", name: "cancelText")),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(selectedDateRange);
-            },
-            child: Text(confirmText),
-          ),
+              onPressed: () {
+                Navigator.of(context).pop(selectedDateRange);
+              },
+              child: Text(
+                  confirmText ?? Intl.message("Confirm", name: "confirmText"))),
         ],
       ),
     );

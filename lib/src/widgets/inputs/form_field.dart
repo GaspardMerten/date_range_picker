@@ -26,6 +26,7 @@ class DateRangeFormField extends FormField<DateRange> {
     Future<DateRange?> Function({
       required BuildContext widgetContext,
       required DateRangerPickerWidgetBuilder pickerBuilder,
+      Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
     }) showDateRangePicker = showDateRangePickerDialogOnWidget,
     Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder,
     Widget Function(BuildContext, DateRange?)? builder,

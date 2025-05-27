@@ -1,10 +1,23 @@
+# 0.2.0
+
+- Bug Fix: #24. Added support for passing custom footer without relying on `showDateRangePicker` method inside the
+  `DateRangeField`/`DateRangeFormField`, thanks to **_@sewakghali_**.
+- Adding support for different days length and start of week, thanks to **_@marcel-ploch-coodoo_** and *
+  *_@mauriziopinotti_**.
+- Adding showDateRangePickerModalDialog to display a centered modal dialog for date range selection, thanks to *
+  *_@sewakghali_**.
+- Bug Fix: #21. User can now first pick end date before start date, thanks to **_@rt234cw_**.
+- Bug Fix: #28. Fixed problem with selectable date and timezones,  thanks to **_@marcel-ploch-coodoo_**
+- Removing upper limit for intl.
+- Bug Fix #26. Days name now follow the locale of the app
+- 
 # 0.1.1
 
 - Bumping intl version (0.18 - 0.20.0)
 
 # 0.1.0
 
-- Making the package compatible with Dart 3.3.3 
+- Making the package compatible with Dart 3.3.3
 - Fixing border radius for quick period selector.
 
 ## 0.0.14
@@ -22,7 +35,6 @@
 ## 0.0.11
 
 * Focus on the first date when a quick period is selected
-
 
 ## 0.0.10
 
@@ -59,7 +71,7 @@
 
 ## 0.0.3
 
-* Updating README.md 
+* Updating README.md
 
 ## 0.0.2
 

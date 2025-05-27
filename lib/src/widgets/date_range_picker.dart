@@ -72,22 +72,33 @@ class DayNamesRow extends StatelessWidget {
   ///
   /// * [key] - The [Key] for this widget.
   /// * [textStyle] - The style to apply to the day names text.
+  /// * [lengthOfDateName] - The length of the date name to display. Defaults to 3 (e.g., "Mon").
+  /// * [firstDayOfWeek] - The first day of the week, where 0 is Sunday and 6 is Saturday. Defaults to 0.
   /// * [weekDays] - The names of the days of the week to display. If null, defaults to the default week days.
   DayNamesRow({
     Key? key,
     required this.textStyle,
-    List<String>? weekDays,
-  })  : weekDays = weekDays ?? defaultWeekDays(),
-        super(key: key);
+    this.weekDays,
+    this.lengthOfDateName = 3,
+    this.firstDayOfWeek = 0,
+  }) : super(key: key);
 
   final TextStyle textStyle;
-  final List<String> weekDays;
+  final List<String>? weekDays;
+  final int lengthOfDateName;
+  final int firstDayOfWeek;
 
   @override
   Widget build(BuildContext context) {
+    var finalWeekDays = (weekDays ??
+            defaultWeekDays(
+                lengthOfDateNames: lengthOfDateName,
+                locale: Localizations.localeOf(context).languageCode))
+        .shiftBy(firstDayOfWeek);
+
     return Row(
       children: [
-        for (var day in weekDays)
+        for (var day in finalWeekDays)
           Expanded(
             child: Center(
               child: Text(
@@ -140,7 +151,13 @@ class DateRangePickerWidget extends StatefulWidget {
     this.displayMonthsSeparator = true,
     this.separatorThickness = 1,
     this.allowSingleTapDaySelection = false,
-  }) : super(key: key);
+    this.firstDayOfWeek = 0,
+    this.lengthOfDateName = 3,
+  })  : assert(
+          firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
+          'firstDayOfWeek must be in the range [0..6].',
+        ),
+        super(key: key);
 
   /// Called whenever the selected date range is changed.
   final ValueChanged<DateRange?> onDateRangeChanged;
@@ -188,6 +205,12 @@ class DateRangePickerWidget extends StatefulWidget {
 
   /// Thickness of the vertical separator between months if [doubleMonth] mode is active
   final double separatorThickness;
+
+  /// The length of the date name in the day names row.
+  final int lengthOfDateName;
+
+  /// The first day of the week, where 0 is Sunday and 6 is Saturday.
+  final int firstDayOfWeek;
 
   @override
   State<DateRangePickerWidget> createState() => DateRangePickerWidgetState();
@@ -255,7 +278,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 theme: widget.theme,
                 onDateChanged: calendarController.onDateChanged,
                 days: calendarController.retrieveDatesForMonth(),
-                delta: calendarController.retrieveDeltaForMonth(),
+                delta: calendarController
+                    .retrieveDeltaForMonth(widget.firstDayOfWeek),
+                firstDayOfWeek: widget.firstDayOfWeek,
+                lengthOfDateName: widget.lengthOfDateName,
               ),
               if (widget.doubleMonth) ...{
                 if (widget.displayMonthsSeparator)
@@ -267,7 +293,10 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                   theme: widget.theme,
                   onDateChanged: calendarController.onDateChanged,
                   days: calendarController.retrieveDatesForNextMonth(),
-                  delta: calendarController.retrieveDeltaForNextMonth(),
+                  delta: calendarController
+                      .retrieveDeltaForNextMonth(widget.firstDayOfWeek),
+                  firstDayOfWeek: widget.firstDayOfWeek,
+                  lengthOfDateName: widget.lengthOfDateName,
                 ),
               }
             ],
@@ -329,6 +358,8 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
     required this.onDateChanged,
     required this.days,
     required this.delta,
+    this.firstDayOfWeek = 0,
+    this.lengthOfDateName = 3,
   }) : super(key: key);
 
   /// The theme to use for the calendar.
@@ -343,6 +374,12 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
   /// The number of days to pad at the beginning of the grid.
   final int delta;
 
+  /// The first day of the week, where 0 is Sunday and 6 is Saturday.
+  final int firstDayOfWeek;
+
+  /// The length of the date name in the day names row.
+  final int lengthOfDateName;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -351,6 +388,8 @@ class EnrichedMonthWrapWidget extends StatelessWidget {
         children: [
           DayNamesRow(
             textStyle: theme.dayNameTextStyle,
+            firstDayOfWeek: firstDayOfWeek,
+            lengthOfDateName: lengthOfDateName,
           ),
           const SizedBox(height: 16),
           MonthWrapWidget(

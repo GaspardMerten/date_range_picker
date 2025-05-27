@@ -33,14 +33,32 @@ class MonthWrapWidget extends StatelessWidget {
       children: List.generate(row, (rowIndex) {
         return Row(
           children: List.generate(column, (columnIndex) {
-            if (rowIndex * column + columnIndex < delta) {
+            //Special case when the delta is negative we need to place some empty spaces
+            if (delta < 0 && rowIndex == 0) {
+              if (columnIndex < (column + delta)) {
+                return placeholderBuilder(columnIndex);
+              } else {
+                var dayModel = days[0];
+                return dayTileBuilder(dayModel);
+              }
+            }
+            int localRowIndex = 0;
+            if (delta < 0 && rowIndex > 0) {
+              localRowIndex = rowIndex - 1;
+            } else {
+              localRowIndex = rowIndex;
+            }
+
+            //placeholder before first day in month
+            if (localRowIndex * column + columnIndex < delta) {
               return placeholderBuilder(columnIndex);
             }
-            if (rowIndex * column + columnIndex - delta >= days.length) {
+            //Placeholder behind the last day in month
+            if (localRowIndex * column + columnIndex - delta >= days.length) {
               return placeholderBuilder(columnIndex);
             }
 
-            var dayModel = days[rowIndex * column + columnIndex - delta];
+            var dayModel = days[localRowIndex * column + columnIndex - delta];
 
             return dayTileBuilder(dayModel);
           }),
