@@ -2,20 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_date_range_picker/src/models.dart';
+import 'package:intl/intl.dart';
 
 /// A controller that handles the logic of the date range picker.
 class RangePickerController {
-  RangePickerController(
-      {DateRange? dateRange,
-      required this.onDateRangeChanged,
-      this.minDate,
-      this.maxDate,
-      this.startDate,
-      this.endDate,
-      this.minimumDateRangeLength,
-      this.maximumDateRangeLength,
-      this.disabledDates = const [],
-      this.allowSingleTapDaySelection = false}) {
+  RangePickerController({
+    DateRange? dateRange,
+    required this.onDateRangeChanged,
+    this.minDate,
+    this.maxDate,
+    this.startDate,
+    this.endDate,
+    this.minimumDateRangeLength,
+    this.maximumDateRangeLength,
+    this.disabledDates = const [],
+    this.allowSingleTapDaySelection = false,
+    this.dateFormat,
+  }) {
     if (dateRange != null) {
       startDate = dateRange.start;
       endDate = dateRange.end;
@@ -40,6 +43,9 @@ class RangePickerController {
   /// The start date of the selected range.
   DateTime? startDate;
 
+  /// The date format used to display the selected date range.
+  DateFormat? dateFormat;
+
   /// The end date of the selected range.
   DateTime? endDate;
 
@@ -48,7 +54,7 @@ class RangePickerController {
       return null;
     }
 
-    return DateRange(startDate!, endDate!);
+    return DateRange(startDate!, endDate!, dateFormat);
   }
 
   /// Called when the user selects a date in the calendar.

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
+import 'package:intl/intl.dart';
 
 /// The default [CalendarTheme] used by the date range picker.
 const CalendarTheme kTheme = CalendarTheme(
@@ -137,6 +138,7 @@ class DateRangePickerWidget extends StatefulWidget {
   const DateRangePickerWidget({
     Key? key,
     required this.onDateRangeChanged,
+    this.dateFormat,
     this.initialDisplayedDate,
     this.minimumDateRangeLength,
     this.initialDateRange,
@@ -186,6 +188,10 @@ class DateRangePickerWidget extends StatefulWidget {
   /// The date that is initially displayed when the picker is opened.
   final DateTime? initialDisplayedDate;
 
+  /// The date format used to display the selected date range.
+  /// Defaults to 'dd/MM/yyyy'.
+  final DateFormat? dateFormat;
+
   /// The height of the picker.
   final double height;
 
@@ -219,6 +225,7 @@ class DateRangePickerWidget extends StatefulWidget {
 class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   late final controller = RangePickerController(
     dateRange: widget.initialDateRange,
+    dateFormat: widget.dateFormat,
     minDate: widget.minDate,
     maxDate: widget.maxDate,
     onDateRangeChanged: widget.onDateRangeChanged,

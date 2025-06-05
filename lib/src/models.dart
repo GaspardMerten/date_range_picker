@@ -9,12 +9,14 @@ import 'package:intl/intl.dart';
 class DateRange {
   final DateTime start;
   final DateTime end;
+  final DateFormat? dateFormat;
 
-  DateRange(this.start, this.end);
+  DateRange(this.start, this.end, [this.dateFormat]);
 
   @override
   String toString() {
-    return "${DateFormat('dd/MM/yyyy').format(start)} - ${DateFormat('dd/MM/yyyy').format(end)}";
+    final dateFormat = this.dateFormat ?? DateFormat('dd/MM/yyyy');
+    return "${dateFormat.format(start)} - ${dateFormat.format(end)}";
   }
 
   /// Returns the duration of the date range in days.
