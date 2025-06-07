@@ -1,38 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:flutter_date_range_picker/src/widgets/typedefs.dart';
+import 'package:intl/intl.dart';
 
-/// A [StatelessWidget] that provides a field to select a date range dateRange.
+/// Signature for building a string label from a selected [DateRange].
+typedef DateRangeLabelBuilder = String Function(DateRange dateRange);
+
+/// Default label builder for [DateRangeField] if no custom builder is provided.
+String _defaultDateRangeLabelBuilder(DateRange dateRange,
+    [DateFormat? dateFormat]) {
+  dateFormat ??= DateFormat.yMMMd();
+  final start = dateFormat.format(dateRange.start);
+  final end = dateFormat.format(dateRange.end);
+  return '$start - $end';
+}
+
+/// A widget that displays a tappable field showing a selected date range.
+///
+/// When tapped, it opens a custom date range picker dialog, and returns the
+/// result through [onDateRangeSelected].
+///
+/// This widget supports extensive customization including:
+/// - custom label formatting,
+/// - picker widget builders,
+/// - footer builders for the dialog.
+///
+/// ### Example
+/// ```dart
+/// DateRangeField(
+///   selectedDateRange: _selectedDateRange,
+///   pickerBuilder: ({selectedDateRange}) => MyCustomDateRangePicker(
+///     initialDateRange: selectedDateRange,
+///   ),
+///   onDateRangeSelected: (range) {
+///     setState(() {
+///       _selectedDateRange = range;
+///     });
+///   },
+/// )
+/// ```
 class DateRangeField extends StatelessWidget {
-  /// Creates a [DateRangeField].
-  ///
-  /// * [decoration] - The decoration to show around the field. If null, defaults to [InputDecoration].
-  /// * [selectedDateRange] - The selected date range for the field.
-  /// * [onDateRangeSelected] - Called when a date range is selected.
-  /// * [childBuilder] - A builder to construct the child widget of the field.
-  /// * [enabled] - Whether the field is enabled or not.
-  /// * [pickerBuilder] - A builder to construct the date range picker widget.
-  /// * [dialogFooterBuilder] - A builder to construct the footer widget of the dialog.
-  /// * [showDateRangePicker] - A function to show the date range picker dialog, defaults to [showDateRangePickerDialogOnWidget].
   const DateRangeField({
     Key? key,
+    required this.pickerBuilder,
     this.decoration,
     this.selectedDateRange,
     this.onDateRangeSelected,
     this.childBuilder,
     this.dialogFooterBuilder,
     this.enabled = true,
-    required this.pickerBuilder,
+    this.labelBuilder,
+    DateFormat? dateFormat,
     this.showDateRangePicker = showDateRangePickerDialogOnWidget,
-  }) : super(key: key);
+  })  : assert(
+          !(labelBuilder != null && dateFormat != null),
+          "You cannot provide both a labelBuilder and a dateFormat. Use one or the other.",
+        ),
+        super(key: key);
 
+  /// Builds the label to display in the field from the selected [DateRange].
+  ///
+  /// You can provide a [DateFormat] or your own [DateRangeLabelBuilder].
+  final DateRangeLabelBuilder? labelBuilder;
+
+  /// Optional footer widget builder for the date picker dialog.
   final Widget Function({DateRange? selectedDateRange})? dialogFooterBuilder;
+
+  /// Function that returns the actual picker widget.
+  ///
+  /// Required.
   final DateRangerPickerWidgetBuilder pickerBuilder;
+
+  /// Input decoration for the field.
   final InputDecoration? decoration;
+
+  /// Whether the field is enabled and responds to taps.
   final bool enabled;
+
+  /// The currently selected date range, if any.
   final DateRange? selectedDateRange;
+
+  /// Callback invoked when a new date range is selected.
   final ValueChanged<DateRange?>? onDateRangeSelected;
+
+  /// Optionally override the child inside the field (e.g., add icons).
   final Widget Function(BuildContext, DateRange?)? childBuilder;
+
+  /// Function to show the date picker dialog.
+  ///
+  /// You can override this if you use a custom dialog or modal flow.
   final Future<DateRange?> Function({
     required BuildContext widgetContext,
     required DateRangerPickerWidgetBuilder pickerBuilder,
@@ -41,36 +97,46 @@ class DateRangeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var inputDecoration = (decoration ?? const InputDecoration()).applyDefaults(
+    final inputDecoration =
+        (decoration ?? const InputDecoration()).applyDefaults(
       Theme.of(context).inputDecorationTheme,
     );
 
     return InkWell(
-      onTap: generateOnTap(context),
+      onTap: showPicker(context),
       child: InputDecorator(
         decoration: inputDecoration,
         isEmpty: selectedDateRange == null,
         child: childBuilder?.call(context, selectedDateRange) ??
             Text(
-              selectedDateRange?.toString() ?? '',
+              formatDateRange(selectedDateRange),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: enabled ? null : Theme.of(context).disabledColor,
+                  ),
             ),
       ),
     );
   }
 
-  VoidCallback? generateOnTap(BuildContext context) {
-    if (enabled) {
-      return () async {
-        final DateRange? dateRange = await showDateRangePicker(
-          widgetContext: context,
-          pickerBuilder: pickerBuilder,
-          dialogFooterBuilder: dialogFooterBuilder,
-        );
+  String formatDateRange(DateRange? dateRange) {
+    if (dateRange == null) return '';
 
-        onDateRangeSelected?.call(dateRange);
-      };
-    } else {
-      return null;
+    if (labelBuilder != null) {
+      return labelBuilder!(dateRange);
     }
+    return _defaultDateRangeLabelBuilder(dateRange, null);
+  }
+
+  /// Shows the picker dialog if [enabled] is true.
+  VoidCallback? showPicker(BuildContext context) {
+    if (!enabled) return null;
+    return () async {
+      final DateRange? dateRange = await showDateRangePicker(
+        widgetContext: context,
+        pickerBuilder: pickerBuilder,
+        dialogFooterBuilder: dialogFooterBuilder,
+      );
+      onDateRangeSelected?.call(dateRange);
+    };
   }
 }

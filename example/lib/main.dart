@@ -86,6 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: const EdgeInsets.all(8),
                             width: 250,
                             child: DateRangeFormField(
+                              labelBuilder: (dateRange) {
+                                return "Days between ${dateRange.start.toIso8601String().substring(0, 10)} and ${dateRange.end.toIso8601String().substring(0, 10)}: ${dateRange.duration} day(s)";
+                              },
                               decoration: const InputDecoration(
                                 label: Text("Date range picker"),
                                 hintText: 'Please select a date range',

@@ -14,7 +14,7 @@ class DateRange {
 
   @override
   String toString() {
-    return "${DateFormat('dd/MM/yyyy').format(start)} - ${DateFormat('dd/MM/yyyy').format(end)}";
+    return "${DateFormat().format(start)} - ${DateFormat().format(end)}";
   }
 
   /// Returns the duration of the date range in days.

@@ -5,18 +5,6 @@ import 'package:flutter/material.dart';
 /// A day tile can be used to display a day of the month, and allows users to select a specific day in a calendar. This widget
 /// is typically used within a larger calendar widget to represent individual days.
 class DayTileWidget extends StatelessWidget {
-  /// Creates a day tile widget.
-  ///
-  /// [size] is the size of the day tile.
-  /// [text] is the text that will be displayed on the day tile.
-  /// [value] is the date that the day tile represents.
-  /// [radius] is the radius of the day tile.
-  /// [backgroundRadius] is the radius of the day tile's background.
-  /// [backgroundColor] is the background color of the day tile.
-  /// [color] is the color of the day tile.
-  /// [textStyle] is the style of the text on the day tile.
-  /// [borderColor] is the color of the day tile's border.
-  /// [onTap] is the function that will be called when the day tile is tapped.
   const DayTileWidget({
     Key? key,
     required this.size,

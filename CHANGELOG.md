@@ -1,3 +1,9 @@
+# 0.2.1
+
+- Adding the ability to specify a labelBuilder to the DateRangeField and DateRangeFormField.
+- Adding support for dateFormat to the DateRangeField and DateRangeFormField.
+- Improving the documentation for DateRangeField and DateRangeFormField.
+
 # 0.2.0
 
 - Bug Fix: #24. Added support for passing custom footer without relying on `showDateRangePicker` method inside the
@@ -7,10 +13,11 @@
 - Adding showDateRangePickerModalDialog to display a centered modal dialog for date range selection, thanks to *
   *_@sewakghali_**.
 - Bug Fix: #21. User can now first pick end date before start date, thanks to **_@rt234cw_**.
-- Bug Fix: #28. Fixed problem with selectable date and timezones,  thanks to **_@marcel-ploch-coodoo_**
+- Bug Fix: #28. Fixed problem with selectable date and timezones, thanks to **_@marcel-ploch-coodoo_**
 - Removing upper limit for intl.
 - Bug Fix #26. Days name now follow the locale of the app
-- 
+-
+
 # 0.1.1
 
 - Bumping intl version (0.18 - 0.20.0)
