@@ -63,7 +63,8 @@ class RangePickerController {
   void onDateChanged(DateTime date) {
     if (startDate == null) {
       startDate = date;
-      onDateRangeChanged(DateRange(startDate!, startDate!));
+      if (maximumDateRangeLength == 1) endDate = date;
+      onDateRangeChanged(DateRange(startDate!, endDate ?? startDate!));
     } else if (endDate == null) {
       if (date == startDate) {
         endDate = date;
@@ -79,9 +80,9 @@ class RangePickerController {
       }
     } else {
       startDate = date;
-      endDate = null;
+      endDate = maximumDateRangeLength == 1 ? startDate : null;
       if (allowSingleTapDaySelection) {
-        onDateRangeChanged(DateRange(startDate!, startDate!));
+        onDateRangeChanged(DateRange(startDate!, endDate ?? startDate!));
       }
     }
   }
