@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
         initialDisplayedDate:
             selectedDateRange?.start ?? DateTime(2023, 11, 20),
         onDateRangeChanged: onDateRangeChanged,
-        height: 350,
+        height: 400,
         theme: const CalendarTheme(
           selectedColor: Colors.blue,
           dayNameTextStyle: TextStyle(color: Colors.black45, fontSize: 10),

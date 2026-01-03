@@ -75,7 +75,7 @@ class DayNamesRow extends StatelessWidget {
   /// * [lengthOfDateName] - The length of the date name to display. Defaults to 3 (e.g., "Mon").
   /// * [firstDayOfWeek] - The first day of the week, where 0 is Sunday and 6 is Saturday. Defaults to 0.
   /// * [weekDays] - The names of the days of the week to display. If null, defaults to the default week days.
-  DayNamesRow({
+  const DayNamesRow({
     Key? key,
     required this.textStyle,
     this.weekDays,
@@ -154,6 +154,8 @@ class DateRangePickerWidget extends StatefulWidget {
     this.allowBackwardsDaySelection = true,
     this.firstDayOfWeek = 0,
     this.lengthOfDateName = 3,
+    this.quickDateRangesDropdownLabel = "Select a range",
+    this.mobileLayoutBreakpoint = 550,
   })  : assert(
           firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
           'firstDayOfWeek must be in the range [0..6].',
@@ -217,6 +219,12 @@ class DateRangePickerWidget extends StatefulWidget {
   /// The first day of the week, where 0 is Sunday and 6 is Saturday.
   final int firstDayOfWeek;
 
+  /// The width to use to pick the mobile breakpoint (defaults to 550px)
+  final int mobileLayoutBreakpoint;
+
+  /// The label for the quick dateRanges dropdown (only shown on mobile)
+  final String quickDateRangesDropdownLabel;
+
   @override
   State<DateRangePickerWidget> createState() => DateRangePickerWidgetState();
 }
@@ -258,15 +266,41 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     subscription.cancel();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Widget child = Column(
+  Widget _buildQuickRangesDropdown() {
+    DateRange? selectedQuickRange;
+    for (final quickRange in widget.quickDateRanges) {
+      if (quickRange.dateRange == controller.dateRange) {
+        selectedQuickRange = quickRange.dateRange;
+        break;
+      }
+    }
+
+    return DropdownButton<DateRange>(
+      value: selectedQuickRange,
+      hint: const Text("Select a range"),
+      onChanged: (DateRange? newValue) {
+        if (newValue != null) {
+          calendarController.setDateRange(newValue);
+        }
+      },
+      items: widget.quickDateRanges
+          .map<DropdownMenuItem<DateRange>>((QuickDateRange range) {
+        return DropdownMenuItem<DateRange>(
+          value: range.dateRange,
+          child: Text(range.label),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildCalendarPicker(bool doubleMonth) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: widget.theme.tileSize * 7 * (widget.doubleMonth ? 2 : 1),
+          width: widget.theme.tileSize * 7 * (doubleMonth ? 2 : 1),
           child: MonthSelectorAndDoubleIndicator(
-            doubleMonth: widget.doubleMonth,
+            doubleMonth: doubleMonth,
             onPrevious: calendarController.previous,
             onNext: calendarController.next,
             currentMonth: calendarController.currentMonth,
@@ -289,7 +323,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 firstDayOfWeek: widget.firstDayOfWeek,
                 lengthOfDateName: widget.lengthOfDateName,
               ),
-              if (widget.doubleMonth) ...{
+              if (doubleMonth) ...{
                 if (widget.displayMonthsSeparator)
                   VerticalDivider(
                     thickness: widget.separatorThickness,
@@ -310,8 +344,25 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
         ),
       ],
     );
+  }
 
-    if (widget.quickDateRanges.isNotEmpty) {
+  @override
+  Widget build(BuildContext context) {
+    final isMobile =
+        MediaQuery.sizeOf(context).width < widget.mobileLayoutBreakpoint;
+    final doubleMonth = widget.doubleMonth && !isMobile;
+
+    Widget child;
+
+    if (isMobile && widget.quickDateRanges.isNotEmpty) {
+      child = Column(
+        children: [
+          _buildQuickRangesDropdown(),
+          const SizedBox(height: 8),
+          _buildCalendarPicker(false),
+        ],
+      );
+    } else if (widget.quickDateRanges.isNotEmpty) {
       child = Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -340,13 +391,15 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
             height: double.infinity,
             margin: const EdgeInsets.only(right: 16),
           ),
-          child,
+          _buildCalendarPicker(doubleMonth),
           if (widget.quickDateRanges.isNotEmpty)
             const SizedBox(
               width: 16,
             ),
         ],
       );
+    } else {
+      child = _buildCalendarPicker(doubleMonth);
     }
 
     return SizedBox(
