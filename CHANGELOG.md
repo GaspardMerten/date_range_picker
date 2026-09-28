@@ -1,3 +1,16 @@
+# 0.3.0
+
+- Responsive layout: below `mobileLayoutBreakpoint` (default 550px) the picker shows a single month and the quick
+  ranges as a dropdown (label set with `quickDateRangesDropdownLabel`). This changes the default layout on narrow
+  screens; set `mobileLayoutBreakpoint: 0` to keep the previous one. Thanks to **_@mauriziopinotti_** (#42).
+- New option `allowBackwardsDaySelection` (default `true`) to prevent selecting a range backwards, thanks to
+  **_@mauriziopinotti_** (#41).
+- Bug Fix: with `maximumDateRangeLength: 1`, a single tap now selects the day, thanks to **_@mauriziopinotti_** (#40)
+  and **_@Osama-Al-Fawaz_**.
+- Bug Fix: `minimumDateRangeLength` / `maximumDateRangeLength` are now enforced when picking the end date before the
+  start date, reported by **_@JDongKhan_** (#36).
+- Lint fixes.
+
 # 0.2.1
 
 - Adding the ability to specify a labelBuilder to the DateRangeField and DateRangeFormField.
