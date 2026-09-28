@@ -220,7 +220,7 @@ class DateRangePickerWidget extends StatefulWidget {
   final int firstDayOfWeek;
 
   /// The width to use to pick the mobile breakpoint (defaults to 550px)
-  final int mobileLayoutBreakpoint;
+  final double mobileLayoutBreakpoint;
 
   /// The label for the quick dateRanges dropdown (only shown on mobile)
   final String quickDateRangesDropdownLabel;
@@ -267,29 +267,29 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
   }
 
   Widget _buildQuickRangesDropdown() {
-    DateRange? selectedQuickRange;
-    for (final quickRange in widget.quickDateRanges) {
-      if (quickRange.dateRange == controller.dateRange) {
-        selectedQuickRange = quickRange.dateRange;
-        break;
-      }
-    }
+    // Items are keyed by index: DateRange equality is day-based, so two quick
+    // ranges could compare equal, and a null range (reset) must stay selectable.
+    final selectedIndex = controller.dateRange == null
+        ? null
+        : widget.quickDateRanges
+            .indexWhere((range) => range.dateRange == controller.dateRange);
 
-    return DropdownButton<DateRange>(
-      value: selectedQuickRange,
-      hint: const Text("Select a range"),
-      onChanged: (DateRange? newValue) {
-        if (newValue != null) {
-          calendarController.setDateRange(newValue);
+    return DropdownButton<int>(
+      value: selectedIndex == -1 ? null : selectedIndex,
+      hint: Text(widget.quickDateRangesDropdownLabel),
+      onChanged: (int? index) {
+        if (index != null) {
+          calendarController
+              .setDateRange(widget.quickDateRanges[index].dateRange);
         }
       },
-      items: widget.quickDateRanges
-          .map<DropdownMenuItem<DateRange>>((QuickDateRange range) {
-        return DropdownMenuItem<DateRange>(
-          value: range.dateRange,
-          child: Text(range.label),
-        );
-      }).toList(),
+      items: [
+        for (final (index, range) in widget.quickDateRanges.indexed)
+          DropdownMenuItem<int>(
+            value: index,
+            child: Text(range.label),
+          ),
+      ],
     );
   }
 

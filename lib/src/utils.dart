@@ -18,6 +18,6 @@ List<String> defaultWeekDays({int lengthOfDateNames = 3, String? locale}) {
 
 extension ListUtils on List {
   /// Shifts the list by "amount" places
-  shiftBy(int amount) =>
+  List shiftBy(int amount) =>
       amount > 0 ? (sublist(amount)..addAll(sublist(0, amount))) : this;
 }

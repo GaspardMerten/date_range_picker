@@ -68,10 +68,14 @@ class RangePickerController {
   /// If the [allowSingleTapDaySelection] is true, the [endDate] will be set to the [startDate]
   /// when the [date] is equal to the [startDate].
   void onDateChanged(DateTime date) {
-    if (startDate == null) {
+    if (maximumDateRangeLength == 1) {
+      // A range of one day is complete as soon as a day is tapped.
       startDate = date;
-      if (maximumDateRangeLength == 1) endDate = date;
-      onDateRangeChanged(DateRange(startDate!, endDate ?? startDate!));
+      endDate = date;
+      onDateRangeChanged(DateRange(startDate!, endDate!));
+    } else if (startDate == null) {
+      startDate = date;
+      onDateRangeChanged(DateRange(startDate!, startDate!));
     } else if (endDate == null) {
       if (date == startDate) {
         endDate = date;
@@ -87,9 +91,9 @@ class RangePickerController {
       }
     } else {
       startDate = date;
-      endDate = maximumDateRangeLength == 1 ? startDate : null;
+      endDate = null;
       if (allowSingleTapDaySelection) {
-        onDateRangeChanged(DateRange(startDate!, endDate ?? startDate!));
+        onDateRangeChanged(DateRange(startDate!, startDate!));
       }
     }
     if (!allowBackwardsDaySelection) {
@@ -134,7 +138,8 @@ class RangePickerController {
     }
 
     if (tmpStartDate != null && tmpEndDate == null) {
-      var dateDifference = localizedDate.difference(tmpStartDate).inDays;
+      // Absolute, so the length limits also apply when picking backwards.
+      var dateDifference = localizedDate.difference(tmpStartDate).inDays.abs();
       if (maximumDateRangeLength != null &&
           dateDifference + 1 > maximumDateRangeLength!) {
         return false;
@@ -218,6 +223,9 @@ class RangePickerController {
   void onDateRangeChangedExternally(DateRange? newRange) {
     startDate = newRange?.start;
     endDate = newRange?.end;
+    if (!allowBackwardsDaySelection) {
+      minDate = origMinDate;
+    }
     onDateRangeChanged(newRange);
   }
 }

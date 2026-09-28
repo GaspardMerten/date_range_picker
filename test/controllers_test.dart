@@ -220,4 +220,47 @@ void main() {
             .isToday,
         true);
   });
+
+  group('0.3.0 fixes', () {
+    test('max range 1 notifies on every tap', () {
+      final ranges = <DateRange?>[];
+      final controller = RangePickerController(
+        maximumDateRangeLength: 1,
+        onDateRangeChanged: ranges.add,
+      );
+      controller.onDateChanged(DateTime(2022, 4, 1));
+      controller.onDateChanged(DateTime(2022, 4, 5));
+      expect(ranges, [
+        DateRange(DateTime(2022, 4, 1), DateTime(2022, 4, 1)),
+        DateRange(DateTime(2022, 4, 5), DateTime(2022, 4, 5)),
+      ]);
+      expect(controller.endDate, DateTime(2022, 4, 5));
+    });
+
+    test('length limits apply when picking backwards', () {
+      final controller = RangePickerController(
+        startDate: DateTime(2022, 4, 10),
+        minimumDateRangeLength: 3,
+        maximumDateRangeLength: 5,
+        onDateRangeChanged: (_) {},
+      );
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 9)), false);
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 8)), true);
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 6)), true);
+      expect(controller.dateIsSelectable(DateTime(2022, 4, 5)), false);
+    });
+
+    test('external range restores minDate when backwards is disabled', () {
+      final controller = RangePickerController(
+        minDate: DateTime(2022, 1, 1),
+        allowBackwardsDaySelection: false,
+        onDateRangeChanged: (_) {},
+      );
+      controller.onDateChanged(DateTime(2022, 4, 10));
+      expect(controller.minDate, DateTime(2022, 4, 10));
+      controller.onDateRangeChangedExternally(
+          DateRange(DateTime(2022, 3, 1), DateTime(2022, 3, 5)));
+      expect(controller.minDate, DateTime(2022, 1, 1));
+    });
+  });
 }
