@@ -15,7 +15,9 @@ class RangePickerController {
       this.minimumDateRangeLength,
       this.maximumDateRangeLength,
       this.disabledDates = const [],
-      this.allowSingleTapDaySelection = false}) {
+      this.allowSingleTapDaySelection = false,
+      this.allowBackwardsDaySelection = true})
+      : origMinDate = minDate {
     if (dateRange != null) {
       startDate = dateRange.start;
       endDate = dateRange.end;
@@ -29,10 +31,15 @@ class RangePickerController {
 
   final bool allowSingleTapDaySelection;
 
+  /// Whether the user can select a date range backwards (i.e. start date is after end date).
+  final bool allowBackwardsDaySelection;
+
   final ValueChanged<DateRange?> onDateRangeChanged;
 
   /// The minimum date that can be selected. (inclusive)
   DateTime? minDate;
+
+  final DateTime? origMinDate;
 
   /// The maximum date that can be selected. (inclusive)
   DateTime? maxDate;
@@ -84,6 +91,9 @@ class RangePickerController {
       if (allowSingleTapDaySelection) {
         onDateRangeChanged(DateRange(startDate!, endDate ?? startDate!));
       }
+    }
+    if (!allowBackwardsDaySelection) {
+      minDate = startDate != null && endDate == null ? startDate : origMinDate;
     }
   }
 

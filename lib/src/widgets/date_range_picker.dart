@@ -151,6 +151,7 @@ class DateRangePickerWidget extends StatefulWidget {
     this.displayMonthsSeparator = true,
     this.separatorThickness = 1,
     this.allowSingleTapDaySelection = false,
+    this.allowBackwardsDaySelection = true,
     this.firstDayOfWeek = 0,
     this.lengthOfDateName = 3,
   })  : assert(
@@ -197,6 +198,10 @@ class DateRangePickerWidget extends StatefulWidget {
   /// day twice).
   final bool allowSingleTapDaySelection;
 
+  /// Set [allowBackwardsDaySelection] to false to prevent the user from selecting
+  /// a date range backwards (i.e. start date is after end date).
+  final bool allowBackwardsDaySelection;
+
   /// The theme used to customize the appearance of the picker.
   final CalendarTheme theme;
 
@@ -226,6 +231,7 @@ class DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     minimumDateRangeLength: widget.minimumDateRangeLength,
     maximumDateRangeLength: widget.maximumDateRangeLength,
     allowSingleTapDaySelection: widget.allowSingleTapDaySelection,
+    allowBackwardsDaySelection: widget.allowBackwardsDaySelection,
   );
 
   late final calendarController = CalendarWidgetController(
